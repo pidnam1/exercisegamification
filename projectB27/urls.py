@@ -22,5 +22,5 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="exercisegamification/index.html")),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('logout', LogoutView.as_view()),
+    path('logout', LogoutView.as_view(), name='logout'),
 ]
