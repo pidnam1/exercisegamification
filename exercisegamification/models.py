@@ -23,3 +23,17 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+class Goals(models.Model):
+    # ...
+    Goal_title = models.CharField(max_length=200)
+    Goal_date = models.DateTimeField('Goal created')
+    entry = models.TextField(max_length=200, null = True)
+    def __str__(self):
+        return self.goal_title
+class Workouts(models.Model):
+    # ...
+    workout_title = models.CharField(max_length=200)
+    Goal_date = models.DateTimeField('Goal created')
+    entry = models.TextField(max_length=200, null = True)
+    def __str__(self):
+        return self.goal_title
