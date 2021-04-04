@@ -21,9 +21,9 @@ from django.contrib.auth.views import LogoutView
 from exercisegamification import views
 
 urlpatterns = [
-    path('', auth_views.LoginView.as_view(template_name='exercisegamification/index.html'), name = 'login'),
+    path('', auth_views.LoginView.as_view(template_name='exercisegamification/index.html'), name='login'),
     path('admin/', admin.site.urls),
-    path('profile/', views.profilePage, name = "profile"),
+    path('profile/', views.profilePage, name="profile"),
     path('accounts/', include('allauth.urls')),
-    path('logout', LogoutView.as_view(), name='logout'),
+    path('logout', auth_views.LogoutView.as_view(), name='logout'),
 ]
