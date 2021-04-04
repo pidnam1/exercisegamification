@@ -18,12 +18,12 @@ def profilePage(request):
     return render(request, "exercisegamification/profile.html", {"profile": loggedProfile})
 def edit_profile(request):
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
+        form = UserChangeForm(request.POST, instance=request.user)
 
         if form.is_valid():
             form.save()
             return redirect('exercisegamification/profile.html')
     else:
-        form = EditProfileForm(instance=request.user)
+        form = UserChangeForm(instance=request.user)
         args = {'form': form}
         return render(request, 'exercisegamification/edit_profile.html', args)
