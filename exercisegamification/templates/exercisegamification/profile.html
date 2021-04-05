@@ -1,0 +1,16 @@
+{% extends "exercisegamification/base.html" %}
+{% block content %}
+<div class = "container">
+<h1> {{profile.first_name}}  {{profile.last_name}}</h1>
+<h1>Age: {{profile.age}}</h1>
+    {% if profile.weight %}
+    <p>Weight: {{profile.weight}} lbs</p>
+    {% endif %}
+    {% if profile.bmi %}
+    <p>BMI: {{profile.bmi}}</p>
+    {% endif %}
+
+    <a href = "{% url 'edit_profile' %}" class = "btn btn-outline-info"> Edit Profile </a>
+       <!-- <img src="{{profile.profile_pic}}" width=200 height=200 class="rounded-circle">-->
+    </div>
+{% endblock %}

@@ -16,11 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
+from exercisegamification import views
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="exercisegamification/index.html")),
+    path('', auth_views.LoginView.as_view(template_name='exercisegamification/index.html'), name='login'),
     path('admin/', admin.site.urls),
+    path('profile/', views.profilePage, name="profile"),
     path('accounts/', include('allauth.urls')),
     path('logout', LogoutView.as_view(), name='logout'),
+    #path('profile/goals/', views.profilePage, name = "profile"),
+    #path('profile/workouts/', views.profilePage, name = "profile"),
+    path('profile/edit/', views.edit_profile, name='edit_profile')
+
 ]
