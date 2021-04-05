@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from .forms import EditProfileForm
-from .models import Profile, Profile_opt
+from .models import Profile
 # Create your views here.
 
 def profilePage(request):
