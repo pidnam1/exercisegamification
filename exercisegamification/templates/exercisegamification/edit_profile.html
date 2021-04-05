@@ -7,10 +7,21 @@
 <div class="container">
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Required Information</legend>
+            {{ req_form.as_p }}
+        </fieldset>
         <button type="submit" class = "btn btn-primary">Submit</button>
     </form>
-    <br>
+        <form method="post">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Optional Information</legend>
+            {{ form.as_p }}
+        </fieldset>
+        <button type="submit" class = "btn btn-outline-info">Update</button>
+    </form>
+    <!--<br>-->
 </div>
 
 {% endblock %}
