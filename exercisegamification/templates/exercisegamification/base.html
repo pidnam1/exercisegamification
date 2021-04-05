@@ -25,6 +25,12 @@
               <a class="nav-item nav-link" href="/">Home</a>
               <a class="nav-item nav-link" href="/about">About</a>
             </div>
+              {% if user.is_authenticated %}
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                    <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                </div>
+              {% endif %}
           </div>
         </div>
       </nav>

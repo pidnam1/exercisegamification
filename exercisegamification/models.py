@@ -9,6 +9,9 @@ class Profile(models.Model):
     first_name = models.TextField(max_length=30, blank=True)
     last_name = models.TextField(max_length=30, blank=True)
     age = models.IntegerField(default=0)
+    weight = models.IntegerField(null=True)
+    bmi = models.IntegerField(null=True)
+    profile_pic = models.ImageField(null=True, blank=True, upload_to='images/profile/')
 
 
     @receiver(post_save, sender=User)

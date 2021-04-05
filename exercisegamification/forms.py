@@ -8,11 +8,15 @@ class EditProfileForm(ModelForm):
     first_name = forms.CharField(max_length=50, required=True)
     last_name = forms.CharField(max_length=50, required=True)
     age = forms.IntegerField(max_value=None,min_value=0, label="Age")
+    weight = forms.IntegerField(max_value=None, min_value=0, required=False, label='Weight*')
+    bmi = forms.IntegerField(max_value=100, min_value=0, required=False, label='BMI*')
 
     class Meta:
         model = Profile
         fields = (
             'first_name',
             'last_name',
-            'age'
+            'age',
+            'weight',
+            'bmi'
         )

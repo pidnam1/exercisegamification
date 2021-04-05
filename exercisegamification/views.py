@@ -38,18 +38,20 @@ def edit_profile(request):
     if request.method == 'POST':
 
 
-        form = EditProfileForm(request.POST)
-        if form.is_valid():
+        req_form = EditProfileForm(request.POST)
+        if req_form.is_valid():
 
             ## Saves all the filled out form values to the profile
-            loggedProfile.first_name = form.cleaned_data.get('first_name')
-            loggedProfile.last_name = form.cleaned_data.get('last_name')
-            loggedProfile.age = form.cleaned_data.get('age')
+            loggedProfile.first_name = req_form.cleaned_data.get('first_name')
+            loggedProfile.last_name = req_form.cleaned_data.get('last_name')
+            loggedProfile.age = req_form.cleaned_data.get('age')
+            loggedProfile.weight = req_form.cleaned_data.get('weight')
+            loggedProfile.bmi = req_form.cleaned_data.get('bmi')
             loggedProfile.save()
 
             return redirect('/profile/')
     else:
-        form = EditProfileForm(initial = {'first_name':loggedProfile.first_name, 'last_name': loggedProfile.last_name, 'age'
-                                          :loggedProfile.age})
-        args = {'form': form}
+        req_form = EditProfileForm(initial = {'first_name':loggedProfile.first_name, 'last_name': loggedProfile.last_name, 'age'
+                                          :loggedProfile.age, 'weight' : loggedProfile.weight, 'bmi' : loggedProfile.bmi})
+        args = {'req_form': req_form}
         return render(request, 'exercisegamification/edit_profile.html', args)
