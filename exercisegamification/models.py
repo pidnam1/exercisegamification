@@ -6,8 +6,10 @@ from django.db.models.signals import post_save
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.TextField(max_length=30, blank=True)
+    last_name = models.TextField(max_length=30, blank=True)
     age = models.IntegerField(default=0)
-    name = models.TextField(max_length=500, blank=True)
+
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):

@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../desmatterpage-main/.idea/desmatterpage.iml" filepath="$PROJECT_DIR$/../desmatterpage-main/.idea/desmatterpage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../PycharmProjects/nutrilog/.idea/nutrilog.iml" filepath="$PROJECT_DIR$/../PycharmProjects/nutrilog/.idea/nutrilog.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/project-b-27.iml" filepath="$PROJECT_DIR$/.idea/project-b-27.iml" />
     </modules>
   </component>

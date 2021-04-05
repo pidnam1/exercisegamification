@@ -1,16 +1,17 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.forms import ModelForm, Field
+from .models import Profile
 
-from accounts.models import UserProfile
-
-class EditProfileForm(UserChangeForm):
-    template_name='/something/else'
+class EditProfileForm(ModelForm):
+    first_name = forms.CharField(max_length=50, required=True)
+    last_name = forms.CharField(max_length=50, required=True)
+    age = forms.IntegerField(max_value=None,min_value=0, label="Age")
 
     class Meta:
-        model = User
+        model = Profile
         fields = (
-            'email',
             'first_name',
             'last_name',
             'age'

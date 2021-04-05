@@ -1,13 +1,14 @@
-{% block head %}
+{% extends "exercisegamification/base.html" %}
+{% block content %}
 <title>Profile</title>
-{% endblock %}
 
-{% block body %}
+
+
 <div class="container">
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <button type="submit" class = "btn btn-primary">Submit</button>
     </form>
     <br>
 </div>
