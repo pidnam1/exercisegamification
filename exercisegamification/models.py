@@ -46,7 +46,7 @@ class Goal(models.Model):
     title = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
     reach_date = models.DateTimeField('reach date')
-    goal_text = models.TextField('goal description')
+    goal_text = models.TextField('goal description',null=True)
     accomplished = models.BooleanField('have accomplished')
     def __str__(self):
         return self.title + ' | ' + str(self.author)
