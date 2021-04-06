@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.urls import reverse
 
 # Create your models here.
 class Profile(models.Model):
@@ -40,17 +41,23 @@ class Profile(models.Model):
         return self.user.username
 
 
-class Goals(models.Model):
-    # ...
-    Goal_title = models.CharField(max_length=200)
-    Goal_date = models.DateTimeField('Goal created')
-    entry = models.TextField(max_length=200, null = True)
+class Goal(models.Model):
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+    reach_date = models.DateTimeField('reach date')
+    goal_text = models.TextField('goal description')
+    accomplished = models.BooleanField('have accomplished')
     def __str__(self):
-        return self.goal_title
+        return self.title + ' | ' + str(self.author)
+    def get_absolute_url(self):
+        return reverse('goals list')
+
+
 class Workouts(models.Model):
     # ...
     workout_title = models.CharField(max_length=200)
     Goal_date = models.DateTimeField('Goal created')
     entry = models.TextField(max_length=200, null = True)
     def __str__(self):
-        return self.goal_title
+        return self.workout_title

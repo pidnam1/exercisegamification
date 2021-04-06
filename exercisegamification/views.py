@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.views import generic
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from .forms import EditProfileForm
-from .models import Profile
+from .models import Profile, Goal
 # Create your views here.
 
 def profilePage(request):
@@ -19,8 +20,9 @@ def profilePage(request):
 
     ## Calls our profile model of specific user
     loggedProfile = user.profile
+    goals_list = loggedProfile.goal_set.all()
 
-    return render(request, "exercisegamification/profile.html", {"profile": loggedProfile})
+    return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list})
 # /***************************************************************************************
 # *  REFERENCES
 # *  Title: edit profile
@@ -55,3 +57,29 @@ def edit_profile(request):
                                           :loggedProfile.age, 'weight' : loggedProfile.weight, 'bmi' : loggedProfile.bmi})
         args = {'req_form': req_form}
         return render(request, 'exercisegamification/edit_profile.html', args)
+
+
+# /***************************************************************************************
+# *  REFERENCES
+# *  Title: Add Blog Posts to Django Webpage
+# *  Author: Codemy.com
+# *  Date: 04/05/2021
+# *
+# *  URL: https://www.youtube.com/watch?v=CnaB4Nb0-R8
+# *
+# ***************************************************************************************/
+class GoalsView(generic.ListView):
+    model = Goal
+    template_name = 'exercisegamification/goals_list.html'
+    context_object_name = 'goals_list'
+    def get_queryset(self):
+        return Goal.objects.all()
+
+#class GoalDetailView(generic.DetailView):
+#    model = Goal
+#    template_name = 'exercisegamification/goal_detail.html'
+
+def GoalDetailView(request,pk):
+    loggedProfile = Profile.objects.get(user=request.user)
+    goal = loggedProfile.goal_set.get(pk=pk)
+    return render(request, "exercisegamification/goal_detail.html", {"profile": loggedProfile,"goal": goal})

@@ -28,6 +28,8 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     #path('profile/goals/', views.profilePage, name = "profile"),
     #path('profile/workouts/', views.profilePage, name = "profile"),
-    path('profile/edit/', views.edit_profile, name='edit_profile')
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('goals/', views.GoalsView.as_view(), name='goals list'),
+    path('goals/<int:pk>', views.GoalDetailView, name='goal detail'),
 
 ]
