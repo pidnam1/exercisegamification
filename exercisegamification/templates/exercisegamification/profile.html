@@ -14,7 +14,6 @@
        <!-- <img src="{{profile.profile_pic}}" width=200 height=200 class="rounded-circle">-->
 
     <h1>My Goals</h1>
-    <a href = "{% url 'goals list' %}" class = "btn btn-outline-info"> See Goals </a>
     <ul>
         {% for goal in goals_list %}
             <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>

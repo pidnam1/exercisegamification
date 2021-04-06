@@ -75,6 +75,11 @@ class GoalsView(generic.ListView):
     def get_queryset(self):
         return Goal.objects.all()
 
-class GoalDetailView(generic.DetailView):
-    model = Goal
-    template_name = 'exercisegamification/goal_detail.html'
+#class GoalDetailView(generic.DetailView):
+#    model = Goal
+#    template_name = 'exercisegamification/goal_detail.html'
+
+def GoalDetailView(request,pk):
+    loggedProfile = Profile.objects.get(user=request.user)
+    goal = loggedProfile.goal_set.get(pk=pk)
+    return render(request, "exercisegamification/goal_detail.html", {"profile": loggedProfile,"goal": goal})
