@@ -42,11 +42,11 @@ class Profile(models.Model):
 
 
 class Goal(models.Model):
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
     title = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
     reach_date = models.DateTimeField('reach date')
-    goal_text = models.TextField('goal description',null=True)
+    goal_text = models.TextField(max_length=50, blank = True, null=True)
     accomplished = models.BooleanField('have accomplished')
     def __str__(self):
         return self.title + ' | ' + str(self.author)
