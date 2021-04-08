@@ -112,8 +112,12 @@
                     <div class="col-sm-9 text-secondary">
                       <ul>
                         {% for goal in goals_list %}
+                          <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>
+                          {{ goal.goal_text }}</li>
+                        {% if profile.user == goal.author %}
                         <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>
                           {{ goal.goal_text }}</li>
+                        {% endif %}
                         {% endfor %}
                       </ul>
                       <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>
