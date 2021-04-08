@@ -104,6 +104,21 @@
                       {{profile.fav_exercise}}
                     </div>
                   </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">My Goals</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <ul>
+                        {% for goal in goals_list %}
+                        <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>
+                          {{ goal.goal_text }}</li>
+                        {% endfor %}
+                      </ul>
+                      <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>
+                    </div>
+                  </div>
                 </div>
               </div>
               <!-- Goals Progress html template
