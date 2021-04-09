@@ -1,0 +1,22 @@
+{%  extends 'exercisegamification/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Goal</title>
+</head>
+{% block content %}
+
+    <body>
+    <h1>Edit Goal</h1>
+    <br/><br/>
+    <div class="'form-group">
+        <form method="POST">
+            {% csrf_token %}
+            {{ req_form.as_p }}
+            <button type="submit" class = "btn btn-outline-info">Update</button>
+        </form>
+    </div>
+    </body>
+{% endblock %}
+</html>
