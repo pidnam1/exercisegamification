@@ -34,5 +34,6 @@ urlpatterns = [
     path('goals/', views.GoalsView.as_view(), name='goals list'),
     path('goals/<int:pk>', views.GoalDetailView, name='goal detail'),
     path('goals/create/', views.AddGoalView, name='add goal'),
+    path('goals/edit/<int:pk>', views.EditGoalView, name='edit goal'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
