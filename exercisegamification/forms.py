@@ -27,10 +27,10 @@ class EditProfileForm(ModelForm):
 
 class AddGoalForm(ModelForm):
     title = forms.CharField(max_length=50, required=True)
-    pub_date = forms.DateTimeField(required=True, label="Date Created")
-    reach_date = forms.DateTimeField(required=True, label='Target Reach Date')
+    pub_date = forms.DateField(required=True, label="Date Created")
+    reach_date = forms.DateField(required=True, label='Target Reach Date')
     goal_text = forms.CharField(required=True)
-    accomplished = forms.BooleanField(required=True)
+    accomplished = forms.BooleanField(required=False)
 
     class Meta:
         model = Goal
@@ -44,10 +44,10 @@ class AddGoalForm(ModelForm):
 
 class EditGoalForm(ModelForm):
     title = forms.CharField(max_length=50, required=True)
-    pub_date = forms.DateTimeField(required=True, label="Date Created")
-    reach_date = forms.DateTimeField(required=True, label='Target Reach Date')
+    pub_date = forms.DateField(required=True, label="Date Created")
+    reach_date = forms.DateField(required=True, label='Target Reach Date')
     goal_text = forms.CharField(required=True)
-    accomplished = forms.BooleanField(required=True)
+    accomplished = forms.BooleanField(required=False)
 
     class Meta:
         model = Goal

@@ -6,8 +6,14 @@
     <p>{{ goal.goal_text }}</p>
     <p>Created: {{ goal.pub_date }}</p>
     <p>Target Reach Date: {{ goal.reach_date }}</p>
-    <p>I have accomplished: {{ goal.accomplished }}</p>
-    <a href = "{% url 'edit goal' goal.pk%}" class = "btn btn-outline-info"> Edit </a><br/>
+    <p>Accomplished?
+        {% if goal.accomplished == True %}
+            Yes!
+            {% else %}
+            In progress!
+        {% endif %}
+    </p>
+    <a href = "{% url 'edit goal' goal.pk%}" class = "btn btn-outline-info"> Edit </a><br/><br/>
     <a href = "{% url 'goals list' %}" class = "btn btn-outline-info"> Back to All Goals </a>
     </body>
     </div>
