@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
-from .forms import EditProfileForm, AddGoalForm
+from .forms import EditProfileForm, AddGoalForm, EditGoalForm
 from .models import Profile, Goal
 # Create your views here.
 
@@ -105,3 +105,24 @@ def AddGoalView(request):
         req_form = AddGoalForm()
         args = {'req_form': req_form}
         return render(request, 'exercisegamification/add_goal.html', args)
+
+def EditGoalView(request,pk):
+    loggedProfile = Profile.objects.get(user=request.user)
+    goal = loggedProfile.goal_set.get(pk=pk)
+    if request.method == 'POST':
+        req_form = EditGoalForm(request.POST)
+        if req_form.is_valid():
+            goal = loggedProfile.goal_set.get(pk=pk)
+            goal.title = req_form.cleaned_data.get('title')
+            goal.pub_date = req_form.cleaned_data.get('pub_date')
+            goal.reach_date = req_form.cleaned_data.get('reach_date')
+            goal.goal_text = req_form.cleaned_data.get('goal_text')
+            goal.accomplished = req_form.cleaned_data.get('accomplished')
+            goal.save()
+
+            return redirect('/profile/')
+    else:
+        req_form = EditGoalForm(initial={'title':goal.title, 'pub_date': goal.pub_date, 'reach_date':
+            goal.reach_date, 'goal_text': goal.goal_text, 'accomplished': goal.accomplished})
+        args = {'req_form': req_form}
+        return render(request, 'exercisegamification/edit_goal.html', args)
