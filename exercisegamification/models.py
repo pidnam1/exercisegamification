@@ -10,9 +10,10 @@ class Profile(models.Model):
     first_name = models.TextField(max_length=30, blank=True)
     last_name = models.TextField(max_length=30, blank=True)
     age = models.IntegerField(default=0)
-    weight = models.IntegerField(null=True)
-    bmi = models.IntegerField(null=True)
-    profile_pic = models.ImageField(null=True, blank=True, upload_to='images/profile/')
+    weight = models.IntegerField(null=True, blank=True)
+    bmi = models.IntegerField(null=True, blank=True)
+    fav_exercise = models.TextField(max_length=500, blank=True)
+    profile_pic = models.ImageField(null=True, blank=True, upload_to='profile/')
 
     public = models.BooleanField(default=False)
     private = models.BooleanField(default=True)
@@ -42,16 +43,17 @@ class Profile(models.Model):
 
 
 class Goal(models.Model):
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
     title = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
     reach_date = models.DateTimeField('reach date')
-    goal_text = models.TextField('goal description')
+    goal_text = models.TextField(max_length=50, blank = True, null=True)
     accomplished = models.BooleanField('have accomplished')
     def __str__(self):
         return self.title + ' | ' + str(self.author)
     def get_absolute_url(self):
         return reverse('goals list')
+
 
 
 class Workouts(models.Model):

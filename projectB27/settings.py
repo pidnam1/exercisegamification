@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import django_heroku
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -128,6 +129,12 @@ STATIC_URL = '/static/'
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')
+]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images/')
+
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -148,6 +155,6 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-SITE_ID = 3
+SITE_ID = 2
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'
