@@ -14,6 +14,7 @@ class Profile(models.Model):
     bmi = models.IntegerField(null=True, blank=True)
     fav_exercise = models.TextField(max_length=500, blank=True)
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profile/')
+    points_total = models.IntegerField(default=0)
 
     public = models.BooleanField(default=False)
     private = models.BooleanField(default=True)
@@ -63,3 +64,8 @@ class Workouts(models.Model):
     entry = models.TextField(max_length=200, null = True)
     def __str__(self):
         return self.workout_title
+
+
+class GraphMaker(models.Model):
+    date = models.DateField('date')
+    value = models.IntegerField('value', null=False, blank=False)
