@@ -57,7 +57,22 @@ class Goal(models.Model):
 class Workouts(models.Model):
     # ...
     workout_title = models.CharField(max_length=200)
+    workout_description = models.TextField(max_length=500)
     Goal_date = models.DateTimeField('Goal created')
     entry = models.TextField(max_length=200, null = True)
     def __str__(self):
         return self.workout_title
+
+class MyWorkout(models.Model):
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
+    workout_title = models.CharField(max_length=200)
+    workout_description = models.TextField(max_length=500)
+    pub_date = models.DateTimeField('date published')
+    def __str__(self):
+        return self.workout_title
+
+class MyExercise(models.Model):
+    myworkout = models.ForeignKey(MyWorkout, on_delete=models.CASCADE)
+    exercise = models.CharField(max_length=200)
+    quantity = models.CharField(max_length=200) 
+    information = models.TextField(max_length=500)

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from .forms import EditProfileForm, AddGoalForm
-from .models import Profile, Goal
+from .models import Profile, Goal, MyWorkout
 # Create your views here.
 
 def profilePage(request):
@@ -108,3 +108,11 @@ def AddGoalView(request):
         req_form = AddGoalForm()
         args = {'req_form': req_form}
         return render(request, 'exercisegamification/add_goal.html', args)
+
+
+class MyWorkoutView(generic.ListView):
+    model = MyWorkout
+    template_name = 'exercisegamification/myworkouts_list.html'
+    context_object_name = 'myworkouts_list'
+    def get_queryset(self):
+        return MyWorkout.objects.all()
