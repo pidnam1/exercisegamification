@@ -1,0 +1,14 @@
+{%  extends 'exercisegamification/base.html' %}
+{% block content %}
+    <div class = "container">
+    <body>
+    <h1>My Workouts</h1>
+    <ul>
+        {% for myworkout in myworkouts_list %}
+            <li><a href="{% url 'myworkout detail' myworkout.pk%}">{{ myworkout.myworkout_title }}</a> - {{ myworkout.myworkout_description }}</li>
+        {% endfor %}
+    </ul>
+    <a href = "{% url 'profile' %}" class = "btn btn-outline-info"> Back to Profile </a>
+    </body>
+    </div>
+{% endblock %}
