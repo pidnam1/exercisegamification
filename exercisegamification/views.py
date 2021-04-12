@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
-from .forms import EditProfileForm, AddGoalForm
-from .models import Profile, Goal, MyWorkout
+from .forms import EditProfileForm, AddGoalForm, AddMyWorkoutForm
+from .models import Profile, Goal, Workout, MyWorkout
 # Create your views here.
 
 def profilePage(request):
@@ -21,6 +21,7 @@ def profilePage(request):
     ## Calls our profile model of specific user
     loggedProfile = user.profile
     goals_list = loggedProfile.goal_set.all()
+    #myworkouts_list = 
 
     return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list})
 # /***************************************************************************************
@@ -110,9 +111,39 @@ def AddGoalView(request):
         return render(request, 'exercisegamification/add_goal.html', args)
 
 
+
+def SelectWorkout(request):
+    workouts_list = Workout.objects.filter(author = None)
+    return render(request, "exercisegamification/select_workout.html", {"workouts_list": workouts_list})
+
+
+def WorkoutDetailView(request, pk):
+    workout = Workout.objects.get(pk=pk)
+    return render(request, "exercisegamification/workout_detail.html", {"workout": workout})
+
+
+
 class MyWorkoutView(generic.ListView):
     model = MyWorkout
     template_name = 'exercisegamification/myworkouts_list.html'
     context_object_name = 'myworkouts_list'
     def get_queryset(self):
         return MyWorkout.objects.all()
+
+def AddMyWorkoutView(request):
+    loggedProfile = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
+        req_form = AddMyWorkoutForm(request.POST)
+        if req_form.is_valid():
+            myworkout = MyWorkout(author=loggedProfile)
+            myworkout.myworkout_title = req_form.cleaned_data.get('workout_title')
+            myworkout.myworkout_description = req_form.cleaned_data.get('workout_description')
+
+
+def MyWorkoutDetailView(request,pk):
+    loggedProfile = Profile.objects.get(user=request.user)
+    myworkout = loggedProfile.goal_set.get(pk=pk)
+    return render(request, "exercisegamification/myworkout_detail.html", {"profile": loggedProfile,"myworkout": myworkout})
+            
+
+

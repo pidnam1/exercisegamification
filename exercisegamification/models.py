@@ -10,10 +10,9 @@ class Profile(models.Model):
     first_name = models.TextField(max_length=30, blank=True)
     last_name = models.TextField(max_length=30, blank=True)
     age = models.IntegerField(default=0)
-    weight = models.IntegerField(null=True, blank=True)
-    bmi = models.IntegerField(null=True, blank=True)
-    fav_exercise = models.TextField(max_length=500, blank=True)
-    profile_pic = models.ImageField(null=True, blank=True, upload_to='profile/')
+    weight = models.IntegerField(null=True)
+    bmi = models.IntegerField(null=True)
+    profile_pic = models.ImageField(null=True, blank=True, upload_to='images/profile/')
 
     public = models.BooleanField(default=False)
     private = models.BooleanField(default=True)
@@ -55,20 +54,20 @@ class Goal(models.Model):
         return reverse('goals list')
 
 
-
-class Workouts(models.Model):
-    # ...
+class Workout(models.Model):
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
     workout_title = models.CharField(max_length=200)
+    workout_type = models.CharField(max_length=200)
     workout_description = models.TextField(max_length=500)
+    points = models.IntegerField(default=0)
     Goal_date = models.DateTimeField('Goal created')
-    entry = models.TextField(max_length=200, null = True)
     def __str__(self):
         return self.workout_title
 
 class MyWorkout(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
-    workout_title = models.CharField(max_length=200, null = True)
-    workout_description = models.TextField(max_length=500, null = True)
+    myworkout_title = models.CharField(max_length=200)
+    myworkout_description = models.TextField(max_length=500)
     pub_date = models.DateTimeField('date published')
     def __str__(self):
         return self.workout_title
@@ -76,5 +75,5 @@ class MyWorkout(models.Model):
 class MyExercise(models.Model):
     myworkout = models.ForeignKey(MyWorkout, on_delete=models.CASCADE)
     exercise = models.CharField(max_length=200)
-    quantity = models.CharField(max_length=200) 
+    quantity = models.CharField(max_length=200)
     information = models.TextField(max_length=500)

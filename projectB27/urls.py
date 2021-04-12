@@ -32,4 +32,6 @@ urlpatterns = [
     path('goals/', views.GoalsView.as_view(), name='goals list'),
     path('goals/<int:pk>', views.GoalDetailView, name='goal detail'),
     path('goals/create/', views.AddGoalView, name='add goal'),
+    path('myworkouts/', views.MyWorkoutView.as_view(), name = 'myworkouts list'),
+    path('myworkouts/<int:pk>', views.MyWorkoutView.as_view(), name = 'myworkout detail')
 ]
