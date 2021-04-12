@@ -1,14 +1,32 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
+from django.db.models import Q
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from .forms import EditProfileForm, AddGoalForm, EditGoalForm
-from .models import Profile, Goal
+from .models import Profile, Goal, Relationship
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-def profilePage(request):
+def profilePage(request, pk=None):
+    rel_receiver = []
+    rel_sender = []
+    if pk:
+        loggedProfile = Profile.objects.get(pk=pk)
+        user = request.user.profile
+        rel_r = Relationship.objects.filter(sender=user)
+        for item in rel_r:
+            rel_receiver.append(item.receiver.user)
+        rel_s = Relationship.objects.filter(receiver=user)
+        for item in rel_s:
+            rel_sender.append(item.sender.user)
 
-    ## Gets current user
-    user = request.user
+    else:
+        loggedProfile = request.user.profile
+
+    '''## Gets current user
+    #user = request.user
     user.save()
 
     ## Loads a profile instance
@@ -16,13 +34,17 @@ def profilePage(request):
 
     ## Saves profile instance
     user.profile.save()
-    user.save()
+    user.save()'''
 
     ## Calls our profile model of specific user
-    loggedProfile = user.profile
+    #loggedProfile = user.profile
     goals_list = loggedProfile.goal_set.all()
+    friend_requests = Relationship.objects.invatations_received(loggedProfile)
 
-    return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list})
+    return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list, 'friend_requests':
+                                                                 friend_requests, 'rel_sender': rel_sender, 'rel_receiver': rel_receiver})
+
+
 # /***************************************************************************************
 # *  REFERENCES
 # *  Title: edit profile
@@ -61,6 +83,80 @@ def edit_profile(request):
         args = {'req_form': req_form}
         return render(request, 'exercisegamification/edit_profile.html', args)
 
+
+def find_friends(request):
+    return render(request, 'exercisegamification/find_friends.html', {'users': Profile.objects.all()})
+
+
+def send_friend_request(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(user=request.user)
+        receiver = Profile.objects.get(pk=pk)
+
+        rel = Relationship.objects.create(sender=sender, receiver=receiver, status='pending')
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('profile')
+
+
+def remove_friend(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(user=request.user)
+        receiver = Profile.objects.get(pk=pk)
+
+        rel = Relationship.objects.get(
+            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender))
+        )
+        rel.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('profile')
+
+
+def accept_invitation(request):
+    if request.method == "POST":
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(pk=pk)
+        receiver = Profile.objects.get(user=request.user)
+        rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
+        if rel.status == 'pending':
+            rel.status = 'accepted'
+            rel.save()
+    return redirect('profile')
+
+
+def reject_invitation(request):
+    if request.method == "POST":
+        pk = request.POST.get('profile_pk')
+        receiver = Profile.objects.get(user=request.user)
+        sender = Profile.objects.get(pk=pk)
+        rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
+        rel.delete()
+    return redirect('profile')
+'''
+@login_required
+def send_friend_request(request, user_id):
+    from_user = request.user
+    to_user = User.objects.get(id=user_id)
+    if to_user not in from_user.friends.all() and from_user not in to_user.friends.all():
+        friend_request, created = FriendRequest.objects.get_or_create(from_user=from_user, to_user=to_user)
+        if created:
+            return HttpResponse('friend request sent')
+    else:
+        return HttpResponse('friend request already sent')
+
+
+@login_required
+def accept_friend_request(request, request_id):
+    friend_request = FriendRequest.objects.get(id=request_id)
+    if friend_request.to_user == request.user:
+        friend_request.to_user.friends.add(friend_request.from_user)
+        friend_request.from_user.friends.add(friend_request.to_user)
+        friend_request.delete()
+        return HttpResponse('friend request accepted')
+    else:
+        return HttpResponse('friend request not accepted')
+'''
 
 # /***************************************************************************************
 # *  REFERENCES
