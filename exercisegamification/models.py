@@ -67,8 +67,8 @@ class Workouts(models.Model):
 
 class MyWorkout(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
-    workout_title = models.CharField(max_length=200)
-    workout_description = models.TextField(max_length=500)
+    workout_title = models.CharField(max_length=200, null = True)
+    workout_description = models.TextField(max_length=500, null = True)
     pub_date = models.DateTimeField('date published')
     def __str__(self):
         return self.workout_title
