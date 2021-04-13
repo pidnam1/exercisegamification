@@ -55,12 +55,12 @@ class Goal(models.Model):
 
 
 class Workout(models.Model):
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True, blank = True)
     workout_title = models.CharField(max_length=200)
     workout_type = models.CharField(max_length=200)
     workout_description = models.TextField(max_length=500)
     points = models.IntegerField(default=0)
-    date = models.DateTimeField('Workout Completed', null = True)
+    date = models.DateTimeField('Workout Completed', null = True, blank = True)
     def __str__(self):
         return self.workout_title
 
