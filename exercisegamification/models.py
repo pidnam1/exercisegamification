@@ -10,17 +10,12 @@ class Profile(models.Model):
     first_name = models.TextField(max_length=30, blank=True)
     last_name = models.TextField(max_length=30, blank=True)
     age = models.IntegerField(default=0)
-<<<<<<< HEAD
-    weight = models.IntegerField(null=True)
-    bmi = models.IntegerField(null=True)
-    profile_pic = models.ImageField(null=True, blank=True, upload_to='images/profile/')
-=======
     weight = models.IntegerField(null=True, blank=True)
     bmi = models.IntegerField(null=True, blank=True)
     fav_exercise = models.TextField(max_length=500, blank=True)
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profile/')
     points_total = models.IntegerField(default=0)
->>>>>>> points
+
 
     public = models.BooleanField(default=False)
     private = models.BooleanField(default=True)
@@ -80,15 +75,15 @@ class MyWorkout(models.Model):
     def __str__(self):
         return self.workout_title
 
-<<<<<<< HEAD
+
 class MyExercise(models.Model):
     myworkout = models.ForeignKey(MyWorkout, on_delete=models.CASCADE)
     exercise = models.CharField(max_length=200)
     quantity = models.CharField(max_length=200)
     information = models.TextField(max_length=500)    information = models.TextField(max_length=500)
-=======
+
 
 class GraphMaker(models.Model):
     date = models.DateField('date')
     value = models.IntegerField('value', null=False, blank=False)
->>>>>>> points
+
