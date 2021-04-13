@@ -6,8 +6,6 @@
     <p>{{ goal.goal_text }}</p>
     <p>Created: {{ goal.pub_date }}</p>
     <p>Target Reach Date: {{ goal.reach_date }}</p>
-    <p>I have accomplished: {{ goal.accomplished }}</p>
-
     <p>Accomplished?
         {% if goal.accomplished == True %}
             Yes!

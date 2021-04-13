@@ -12,17 +12,19 @@
 
     <a href = "{% url 'edit_profile' %}" class = "btn btn-outline-info"> Edit Profile </a>
 
-       <!-- <img src="{{profile.profile_pic}}" width=200 height=200 class="rounded-circle">-->
-    <!--
-    <h1>My Goals</h1>
+    <img src="{{profile.profile_pic}}" width=200 height=200 class="rounded-circle">-->
+    <!--<h1>My Goals</h1>
     <ul>
         {% for goal in goals_list %}
             <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>
                 {{ goal.goal_text }}</li>
         {% endfor %}
-    </ul> 
-    <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a> -->
+    </ul>
+    <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>-->
     <h1>Workout</h1>
+    {% for workout in workouts_list %}
+        <li>{{workout.workout_title}} - {{workout.date}}</li>
+    {% endfor %}
     <a href = "{% url 'select workout' %}" class = "btn btn-outline-info"> Workout </a>
     </div>
     <!--

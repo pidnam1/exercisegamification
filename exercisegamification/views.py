@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
-from .forms import EditProfileForm, AddGoalForm, AddMyWorkoutForm, WorkoutDateForm
+from .forms import EditProfileForm, AddGoalForm, AddMyWorkoutForm, EditGoalForm, WorkoutDateForm
 from .models import Profile, Goal, Workout, MyWorkout
 # Create your views here.
 
@@ -21,9 +21,14 @@ def profilePage(request):
     ## Calls our profile model of specific user
     loggedProfile = user.profile
     goals_list = loggedProfile.goal_set.all()
-    #myworkouts_list = 
+    workouts_list = loggedProfile.workout_set.all()
+    for w in workouts_list:
+        loggedProfile.points_total += w.points
+    loggedProfile.save()
 
-    return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list})
+    return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list, "workouts_list": workouts_list})
+
+    #return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list})
 # /***************************************************************************************
 # *  REFERENCES
 # *  Title: edit profile
@@ -110,7 +115,26 @@ def AddGoalView(request):
         args = {'req_form': req_form}
         return render(request, 'exercisegamification/add_goal.html', args)
 
+def EditGoalView(request,pk):
+    loggedProfile = Profile.objects.get(user=request.user)
+    goal = loggedProfile.goal_set.get(pk=pk)
+    if request.method == 'POST':
+        req_form = EditGoalForm(request.POST)
+        if req_form.is_valid():
+            goal = loggedProfile.goal_set.get(pk=pk)
+            goal.title = req_form.cleaned_data.get('title')
+            goal.pub_date = req_form.cleaned_data.get('pub_date')
+            goal.reach_date = req_form.cleaned_data.get('reach_date')
+            goal.goal_text = req_form.cleaned_data.get('goal_text')
+            goal.accomplished = req_form.cleaned_data.get('accomplished')
+            goal.save()
 
+            return redirect('/profile/')
+    else:
+        req_form = EditGoalForm(initial={'title':goal.title, 'pub_date': goal.pub_date, 'reach_date':
+            goal.reach_date, 'goal_text': goal.goal_text, 'accomplished': goal.accomplished})
+        args = {'req_form': req_form}
+        return render(request, 'exercisegamification/edit_goal.html', args)
 
 def SelectWorkout(request):
     workouts_list = Workout.objects.filter(author = None)
@@ -130,6 +154,7 @@ def WorkoutDetailView(request, pk):
             added_workout.points = workout.points
             added_workout.date = req_form.cleaned_data.get('date')
             added_workout.save()
+
             return redirect('/profile/')
     else:
         req_form = WorkoutDateForm

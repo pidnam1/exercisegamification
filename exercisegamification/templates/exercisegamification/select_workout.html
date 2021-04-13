@@ -5,7 +5,7 @@
 
 <ul>
     {% for workout in workouts_list %}
-        <li><a href="{% url 'workout detail' workout.pk%}">{{ workout.workout_title }}</a> <br/> {{ workout.workout_type}}</li>
+        <li><a href="{% url 'add workout' workout.pk%}">{{ workout.workout_title }}</a> <br/> {{ workout.workout_type}}</li>
     {% endfor %}
 </ul>
 
