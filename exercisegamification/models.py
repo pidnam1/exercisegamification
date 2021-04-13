@@ -80,7 +80,7 @@ class MyExercise(models.Model):
     myworkout = models.ForeignKey(MyWorkout, on_delete=models.CASCADE)
     exercise = models.CharField(max_length=200)
     quantity = models.CharField(max_length=200)
-    information = models.TextField(max_length=500)    information = models.TextField(max_length=500)
+    information = models.TextField(max_length=500)
 
 
 class GraphMaker(models.Model):
