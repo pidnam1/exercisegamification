@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import ModelForm, Field
-from .models import Profile, Goal
+from .models import Profile, Goal, MyWorkout, Workout
 
 class EditProfileForm(ModelForm):
     first_name = forms.CharField(max_length=50, required=True)
@@ -29,8 +29,11 @@ class AddGoalForm(ModelForm):
     title = forms.CharField(max_length=50, required=True)
     pub_date = forms.DateTimeField(required=True, label="Date Created")
     reach_date = forms.DateTimeField(required=True, label='Target Reach Date')
+    pub_date = forms.DateField(required=True, label="Date Created")
+    reach_date = forms.DateField(required=True, label='Target Reach Date')
     goal_text = forms.CharField(required=True)
     accomplished = forms.BooleanField(required=True)
+    accomplished = forms.BooleanField(required=False)
 
     class Meta:
         model = Goal
@@ -46,8 +49,11 @@ class EditGoalForm(ModelForm):
     title = forms.CharField(max_length=50, required=True)
     pub_date = forms.DateTimeField(required=True, label="Date Created")
     reach_date = forms.DateTimeField(required=True, label='Target Reach Date')
+    pub_date = forms.DateField(required=True, label="Date Created")
+    reach_date = forms.DateField(required=True, label='Target Reach Date')
     goal_text = forms.CharField(required=True)
     accomplished = forms.BooleanField(required=True)
+    accomplished = forms.BooleanField(required=False)
 
     class Meta:
         model = Goal
@@ -58,6 +64,31 @@ class EditGoalForm(ModelForm):
             'goal_text',
             'accomplished'
         )
+
+
+class AddMyWorkoutForm(ModelForm):
+    myworkout_title = forms.CharField(max_length=200, required=True)
+    myworkout_description = forms.CharField(max_length=500, required = True)
+
+    class Meta:
+        model = MyWorkout
+        fields = (
+            'myworkout_title',
+            'myworkout_description',
+            )
+
+class WorkoutDateForm(ModelForm):
+    date = forms.DateTimeField(required=True, label="Date Completed")
+
+    class Meta:
+        model = Workout
+        fields = {
+            'date'
+        }
+
+
+
+
 
 #class AddGoalForm(forms.ModelForm):
 #    class Meta:

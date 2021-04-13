@@ -1,7 +1,6 @@
-
 {% extends "exercisegamification/base.html" %}
 {% block content %}
-<!--<div class = "container">
+<!-- <div class = "container">
 <h1> {{profile.first_name}}  {{profile.last_name}}</h1>
 <h1>Age: {{profile.age}}</h1>
     {% if profile.weight %}
@@ -12,6 +11,23 @@
     {% endif %}
 
     <a href = "{% url 'edit_profile' %}" class = "btn btn-outline-info"> Edit Profile </a>
+
+    <img src="{{profile.profile_pic}}" width=200 height=200 class="rounded-circle">-->
+    <!--<h1>My Goals</h1>
+    <ul>
+        {% for goal in goals_list %}
+            <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>
+                {{ goal.goal_text }}</li>
+        {% endfor %}
+    </ul>
+    <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>-->
+    <h1>Workout</h1>
+    {% for workout in workouts_list %}
+        <li>{{workout.workout_title}} - {{workout.date}}</li>
+    {% endfor %}
+    <a href = "{% url 'select workout' %}" class = "btn btn-outline-info"> Workout </a>
+    </div>
+    <!--
        <img src="{{profile.profile_pic}}" width=200 height=200 class="rounded-circle">
     </div>-->
 {% load static %}
@@ -84,6 +100,15 @@
                       {{profile.fav_exercise}}
                     </div>
                   </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Points</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            {{profile.points_total}}
+                        </div>
+                    </div>
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
