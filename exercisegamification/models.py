@@ -14,6 +14,8 @@ class Profile(models.Model):
     bmi = models.IntegerField(null=True, blank=True)
     fav_exercise = models.TextField(max_length=500, blank=True)
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profile/')
+    points_total = models.IntegerField(default=0)
+
 
     friends = models.ManyToManyField(User, blank=True, related_name='friends')
 
@@ -145,11 +147,33 @@ class Goal(models.Model):
         return reverse('goals list')
 
 
-
-class Workouts(models.Model):
-    # ...
+class Workout(models.Model):
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True, blank = True)
     workout_title = models.CharField(max_length=200)
-    Goal_date = models.DateTimeField('Goal created')
-    entry = models.TextField(max_length=200, null = True)
+    workout_type = models.CharField(max_length=200)
+    workout_description = models.TextField(max_length=500)
+    points = models.IntegerField(default=0)
+    date = models.DateTimeField('Workout Completed', null = True, blank = True)
     def __str__(self):
         return self.workout_title
+
+class MyWorkout(models.Model):
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
+    myworkout_title = models.CharField(max_length=200)
+    myworkout_description = models.TextField(max_length=500)
+    pub_date = models.DateTimeField('date published')
+    def __str__(self):
+        return self.workout_title
+
+
+class MyExercise(models.Model):
+    myworkout = models.ForeignKey(MyWorkout, on_delete=models.CASCADE)
+    exercise = models.CharField(max_length=200)
+    quantity = models.CharField(max_length=200)
+    information = models.TextField(max_length=500)
+
+
+class GraphMaker(models.Model):
+    date = models.DateField('date')
+    value = models.IntegerField('value', null=False, blank=False)
+

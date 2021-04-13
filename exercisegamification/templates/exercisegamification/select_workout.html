@@ -1,0 +1,13 @@
+{% extends "exercisegamification/base.html" %}
+{% block content %}
+<div class = "container">
+<h1>Our Workouts</h1>
+
+<ul>
+    {% for workout in workouts_list %}
+        <li><a href="{% url 'add workout' workout.pk%}">{{ workout.workout_title }}</a> <br/> {{ workout.workout_type}}</li>
+    {% endfor %}
+</ul>
+
+</div>
+{% endblock %}

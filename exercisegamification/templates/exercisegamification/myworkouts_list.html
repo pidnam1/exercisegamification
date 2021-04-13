@@ -2,11 +2,10 @@
 {% block content %}
     <div class = "container">
     <body>
-    <h1>My Goals</h1>
+    <h1>My Workouts</h1>
     <ul>
-        {% for goal in goals_list %}
-            <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>
-                {{ goal.goal_text }}</li>
+        {% for myworkout in myworkouts_list %}
+            <li><a href="{% url 'myworkout detail' myworkout.pk%}">{{ myworkout.myworkout_title }}</a> - {{ myworkout.myworkout_description }}</li>
         {% endfor %}
     </ul>
     <a href = "{% url 'profile' %}" class = "btn btn-outline-info"> Back to Profile </a>
