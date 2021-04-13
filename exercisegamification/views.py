@@ -42,13 +42,13 @@ def profilePage(request, pk=None):
     #loggedProfile = user.profile
     goals_list = loggedProfile.goal_set.all()
     friend_requests = Relationship.objects.invatations_received(loggedProfile)
-
-    return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list, "workouts_list": workouts_list,'friend_requests':
-                                                                 friend_requests, 'rel_sender': rel_sender, 'rel_receiver': rel_receiver,})
     workouts_list = loggedProfile.workout_set.all()
     for w in workouts_list:
         loggedProfile.points_total += w.points
     loggedProfile.save()
+
+    return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list, "workouts_list": workouts_list,'friend_requests':
+        friend_requests, 'rel_sender': rel_sender, 'rel_receiver': rel_receiver})
 
     #return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list})
 # /***************************************************************************************
