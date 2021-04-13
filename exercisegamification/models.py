@@ -60,7 +60,7 @@ class Workout(models.Model):
     workout_type = models.CharField(max_length=200)
     workout_description = models.TextField(max_length=500)
     points = models.IntegerField(default=0)
-    Goal_date = models.DateTimeField('Goal created')
+    date = models.DateTimeField('Workout Completed', null = True)
     def __str__(self):
         return self.workout_title
 

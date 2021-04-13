@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
-from .forms import EditProfileForm, AddGoalForm, AddMyWorkoutForm
+from .forms import EditProfileForm, AddGoalForm, AddMyWorkoutForm, WorkoutDateForm
 from .models import Profile, Goal, Workout, MyWorkout
 # Create your views here.
 
@@ -118,8 +118,23 @@ def SelectWorkout(request):
 
 
 def WorkoutDetailView(request, pk):
+    loggedProfile = Profile.objects.get(user=request.user)
     workout = Workout.objects.get(pk=pk)
-    return render(request, "exercisegamification/workout_detail.html", {"workout": workout})
+    if request.method == 'POST':
+        req_form = WorkoutDateForm(request.POST)
+        if req_form.is_valid():
+            added_workout = Workout(author = loggedProfile)
+            added_workout.workout_title = workout.workout_title
+            added_workout.workout_type = workout.workout_type
+            added_workout.workout_description = workout.workout_description
+            added_workout.points = workout.points
+            added_workout.date = req_form.cleaned_data.get('date')
+            added_workout.save()
+            return redirect('/profile/')
+    else:
+        req_form = WorkoutDateForm
+        args = {'req_form': req_form}
+    return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form})
 
 
 

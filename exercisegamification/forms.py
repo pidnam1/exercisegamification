@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import ModelForm, Field
-from .models import Profile, Goal, MyWorkout
+from .models import Profile, Goal, MyWorkout, Workout
 
 class EditProfileForm(ModelForm):
     first_name = forms.CharField(max_length=50, required=True)
@@ -70,6 +70,15 @@ class AddMyWorkoutForm(ModelForm):
             'myworkout_title',
             'myworkout_description',
             )
+
+class WorkoutDateForm(ModelForm):
+    date = forms.DateTimeField(required=True, label="Date Completed")
+
+    class Meta:
+        model = Workout
+        fields = {
+            'date'
+        }
 
 
 
