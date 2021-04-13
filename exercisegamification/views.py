@@ -22,8 +22,8 @@ def profilePage(request):
     loggedProfile = user.profile
     goals_list = loggedProfile.goal_set.all()
     workouts_list = loggedProfile.workout_set.all()
-    for w in workouts_list:
-        loggedProfile.points_total += w.points
+    #for w in workouts_list:
+    #    loggedProfile.points_total += w.points
     loggedProfile.save()
 
     return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list, "workouts_list": workouts_list})
