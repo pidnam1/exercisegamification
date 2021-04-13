@@ -43,6 +43,8 @@ def profilePage(request, pk=None):
     goals_list = loggedProfile.goal_set.all()
     friend_requests = Relationship.objects.invatations_received(loggedProfile)
     workouts_list = loggedProfile.workout_set.all()
+    
+    loggedProfile.points_total = 0
     for w in workouts_list:
         loggedProfile.points_total += w.points
     loggedProfile.save()
