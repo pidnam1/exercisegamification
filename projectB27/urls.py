@@ -24,6 +24,11 @@ urlpatterns = [
     path('', auth_views.LoginView.as_view(template_name='exercisegamification/index.html'), name='login'),
     path('admin/', admin.site.urls),
     path('profile/', views.profilePage, name="profile"),
+    path('profile/<int:pk>', views.profilePage, name="other profile"),
+    path('send/', views.send_friend_request, name='send friend request'),
+    path('remove_friend/', views.remove_friend, name='remove friend'),
+    path('accept_invite/', views.accept_invitation, name='accept request'),
+    path('decline_invite/', views.reject_invitation, name='decline request'),
     path('accounts/', include('allauth.urls')),
     path('logout', LogoutView.as_view(), name='logout'),
     #path('profile/goals/', views.profilePage, name = "profile"),
@@ -37,4 +42,5 @@ urlpatterns = [
     path('workout/', views.SelectWorkout, name = 'select workout'),
     path('myworkouts/', views.MyWorkoutView.as_view(), name = 'myworkouts list'),
     path('myworkouts/<int:pk>', views.MyWorkoutView.as_view(), name = 'myworkout detail')
-]
+    path('find_friends/', views.find_friends, name='find_friends')
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
