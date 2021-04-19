@@ -13,9 +13,11 @@
             In progress!
         {% endif %}
     </p>
+    {% if user == profile.user %}
     <a href = "{% url 'edit goal' goal.pk%}" class = "btn btn-outline-info"> Edit </a><br/><br/>
+    {% endif %}
 
-    <a href = "{% url 'goals list' %}" class = "btn btn-outline-info"> Back to All Goals </a>
+    <a href = "{% url 'profile' %}" class = "btn btn-outline-info"> Back to Profile </a>
     </body>
     </div>
 {% endblock %}

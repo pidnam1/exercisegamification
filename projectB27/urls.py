@@ -38,6 +38,7 @@ urlpatterns = [
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('goals/', views.GoalsView.as_view(), name='goals list'),
     path('goals/<int:pk>', views.GoalDetailView, name='goal detail'),
+    path('profile/<int:pi>/goals/<int:pk>', views.GoalDetailView, name="others goal detail"),
     path('goals/create/', views.AddGoalView, name='add goal'),
     path('goals/edit/<int:pk>', views.EditGoalView, name='edit goal'),
     path('find_friends/', views.find_friends, name='find_friends'),

@@ -141,30 +141,6 @@ def reject_invitation(request):
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         rel.delete()
     return redirect('profile')
-'''
-@login_required
-def send_friend_request(request, user_id):
-    from_user = request.user
-    to_user = User.objects.get(id=user_id)
-    if to_user not in from_user.friends.all() and from_user not in to_user.friends.all():
-        friend_request, created = FriendRequest.objects.get_or_create(from_user=from_user, to_user=to_user)
-        if created:
-            return HttpResponse('friend request sent')
-    else:
-        return HttpResponse('friend request already sent')
-
-
-@login_required
-def accept_friend_request(request, request_id):
-    friend_request = FriendRequest.objects.get(id=request_id)
-    if friend_request.to_user == request.user:
-        friend_request.to_user.friends.add(friend_request.from_user)
-        friend_request.from_user.friends.add(friend_request.to_user)
-        friend_request.delete()
-        return HttpResponse('friend request accepted')
-    else:
-        return HttpResponse('friend request not accepted')
-'''
 
 # /***************************************************************************************
 # *  REFERENCES
@@ -186,8 +162,11 @@ class GoalsView(generic.ListView):
 #    model = Goal
 #    template_name = 'exercisegamification/goal_detail.html'
 
-def GoalDetailView(request,pk):
-    loggedProfile = Profile.objects.get(user=request.user)
+def GoalDetailView(request, pk, pi=None):
+    if pi:
+        loggedProfile = Profile.objects.get(pk=pi)
+    else:
+        loggedProfile = Profile.objects.get(user=request.user)
     goal = loggedProfile.goal_set.get(pk=pk)
     return render(request, "exercisegamification/goal_detail.html", {"profile": loggedProfile,"goal": goal})
 
