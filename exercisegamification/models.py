@@ -157,6 +157,7 @@ class Workout(models.Model):
     def __str__(self):
         return self.workout_title
 
+
 class MyWorkout(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
     myworkout_title = models.CharField(max_length=200)

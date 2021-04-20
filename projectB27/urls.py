@@ -13,11 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 from exercisegamification import views
@@ -38,11 +38,13 @@ urlpatterns = [
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('goals/', views.GoalsView.as_view(), name='goals list'),
     path('goals/<int:pk>', views.GoalDetailView, name='goal detail'),
+    path('profile/<int:pi>/goals/<int:pk>', views.GoalDetailView, name="others goal detail"),
     path('goals/create/', views.AddGoalView, name='add goal'),
     path('goals/edit/<int:pk>', views.EditGoalView, name='edit goal'),
+    path('find_friends/', views.find_friends, name='find_friends'),
     path('workout/<int:pk>', views.WorkoutDetailView, name = 'add workout'),
     path('workout/', views.SelectWorkout, name = 'select workout'),
     path('myworkouts/', views.MyWorkoutView.as_view(), name = 'myworkouts list'),
-    path('myworkouts/<int:pk>', views.MyWorkoutView.as_view(), name = 'myworkout detail'),
-    path('find_friends/', views.find_friends, name='find_friends')
+    path('myworkouts/<int:pk>', views.MyWorkoutView.as_view(), name = 'myworkout detail')
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

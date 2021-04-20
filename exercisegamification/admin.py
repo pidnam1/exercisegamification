@@ -1,11 +1,10 @@
 from django.contrib import admin
-from .models import Profile, Goal, Relationship, Workout
-
+from .models import Profile, Goal, Relationship
+from .models import Profile, Goal, Workout
 
 # Register your models here.
 admin.site.register(Profile)
 admin.site.register(Goal)
-admin.site.register(Workout)
 admin.site.register(Relationship)
 
 '''
@@ -22,3 +21,4 @@ class FriendListAdmin():
 admin.site.register(FriendsList)
 admin.site.register(FriendRequest)
 '''
+admin.site.register(Workout)

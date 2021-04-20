@@ -20,14 +20,13 @@
                 {{ goal.goal_text }}</li>
         {% endfor %}
     </ul>
-    <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>-->
+    <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>
     <h1>Workout</h1>
     {% for workout in workouts_list %}
         <li>{{workout.workout_title}} - {{workout.date}}</li>
     {% endfor %}
     <a href = "{% url 'select workout' %}" class = "btn btn-outline-info"> Workout </a>
     </div>
-    <!--
        <img src="{{profile.profile_pic}}" width=200 height=200 class="rounded-circle">
     </div>-->
 {% load static %}
@@ -57,7 +56,6 @@
                         <input type="hidden" name="profile_pk" value={{profile.pk}}>
                         <button type="submit" class="btn btn-outline-info">Add Friend</button>
                       </form>
-                      <!--<a href="" class="btn btn-outline-info">Send Friend Request</a>-->
                       {% endif %}
                       {% if user != profile.user and profile.user in rel_receiver and user not in profile.friends.all %}
                         <a class="btn btn-outline-info">Request Pending</a>
@@ -68,7 +66,6 @@
                         <input type="hidden" name="profile_pk" value={{profile.pk}}>
                         <button type="submit" class="btn btn-outline-info">Remove Friend</button>
                       </form>
-                      <!--<a href="" class="btn btn-outline-info">Send Friend Request</a>-->
                       {% endif %}
                     </div>
                   </div>
@@ -139,8 +136,13 @@
                     <div class="col-sm-9 text-secondary">
                       <ul>
                         {% for goal in goals_list %}
-                          <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>
+                          {% if user != profile.user %}
+                          <li><a href="{% url 'others goal detail' pk=goal.pk pi=profile.pk %}">{{ goal.title }}</a> - {{ goal.author }}<br/>
                           {{ goal.goal_text }}</li>
+                          {% else %}
+                          <li><a href="{% url 'goal detail' goal.pk %}">{{ goal.title }}</a> - {{ goal.author }}<br/>
+                          {{ goal.goal_text }}</li>
+                          {% endif %}
                         {% endfor %}
                       </ul>
                       {% if user == profile.user %}
@@ -152,7 +154,7 @@
               </div>
               {% if user == profile.user %}
               <div class="row gutters-sm">
-                <div class="col-sm-6 mb-3">
+                <div class="col-sm-12 mb-3">
                   <div class="card h-100">
                     <ul class="list-group list-group-flush">
                       {% for request in friend_requests %}
@@ -175,6 +177,7 @@
                 </div>
               </div>
               {% endif %}
+
               <!-- Goals Progress html template
               <div class="row gutters-sm">
                 <div class="col-sm-6 mb-3">
