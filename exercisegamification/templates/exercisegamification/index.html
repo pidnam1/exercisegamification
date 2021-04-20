@@ -4,10 +4,10 @@
 {% if user.is_authenticated %}
 <div class = "container">
     <h1>Welcome {{profile.first_name}}</h1>
-    {% if workouts|length == 0 %}
+    {% if friends|length == 0 %}
     <p> Add friends to see their recent activity on your feed!</p>
     {% else %}
-    <h2>Here are your friends' recent activites</h2>
+    <h2>Here are your friends' recent activities</h2>
     {% for workout in workouts %}
     <div class = "card">
         <div class = "card-body">
