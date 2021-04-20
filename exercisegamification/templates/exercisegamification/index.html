@@ -11,7 +11,7 @@
     {% for workout in workouts %}
     <div class = "card">
         <div class = "card-body">
-    <p> {{workout.author.first_name}} completed {{workout.workout_title}} for {{workout.points}} points on {{workout.date}}</p>
+    <p> {{workout.author.user.username}} completed {{workout.workout_title}} for {{workout.points}} points on {{workout.date}}</p>
 
 
         </div>
