@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 from exercisegamification import views
@@ -41,6 +43,6 @@ urlpatterns = [
     path('workout/<int:pk>', views.WorkoutDetailView, name = 'add workout'),
     path('workout/', views.SelectWorkout, name = 'select workout'),
     path('myworkouts/', views.MyWorkoutView.as_view(), name = 'myworkouts list'),
-    path('myworkouts/<int:pk>', views.MyWorkoutView.as_view(), name = 'myworkout detail')
+    path('myworkouts/<int:pk>', views.MyWorkoutView.as_view(), name = 'myworkout detail'),
     path('find_friends/', views.find_friends, name='find_friends')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
