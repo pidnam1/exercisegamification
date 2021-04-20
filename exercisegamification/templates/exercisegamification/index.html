@@ -2,7 +2,19 @@
 {% load socialaccount %}
 {% block content %}
 {% if user.is_authenticated %}
+<div class = "container">
     <h1>Welcome {{profile.first_name}}</h1>
+    <h2>Here are your friends' recent activites</h2>
+    {% for workout in workouts %}
+    <div class = "card">
+        <div class = "card-body">
+    <p> {{workout.author.first_name}} completed {{workout.workout_title}} for {{workout.points}} points on {{workout.date}}</p>
+
+
+        </div>
+        </div>
+    {% endfor %}
+    </div>
     {% else %}
     <h1>Get Started with Exercise Gamification</h1>
     <a href="{%  provider_login_url 'google' %}">Login with Google</a>

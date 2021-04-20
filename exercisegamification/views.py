@@ -11,6 +11,20 @@ from .forms import EditProfileForm, AddGoalForm, AddMyWorkoutForm, EditGoalForm,
 from .models import Profile, Goal, Workout, MyWorkout
 # Create your views here.
 
+def LoginView(LogInView):
+    if LogInView.user.is_authenticated:
+        loggedProfile = LogInView.user.profile
+        friends = loggedProfile.friends.all()
+        workouts = []
+        for f in friends:
+            try:
+                workouts.append(f.profile.workout_set.latest('date'))
+            except:
+                pass
+        return render(LogInView, "exercisegamification/index.html", {'profile':loggedProfile, "friends": friends, "workouts": workouts})
+
+    else:
+        return render(LogInView, "exercisegamification/index.html")
 def profilePage(request, pk=None):
     rel_receiver = []
     rel_sender = []
