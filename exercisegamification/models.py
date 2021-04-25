@@ -139,7 +139,7 @@ class Goal(models.Model):
     title = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
     reach_date = models.DateTimeField('reach date')
-    goal_text = models.TextField(max_length=50, blank = True, null=True)
+    goal_text = models.TextField(max_length=500, blank = True, null=True)
     accomplished = models.BooleanField('have accomplished')
     def __str__(self):
         return self.title + ' | ' + str(self.author)
@@ -178,3 +178,18 @@ class GraphMaker(models.Model):
     date = models.DateField('date')
     value = models.IntegerField('value', null=False, blank=False)
 
+class PointAchievement(models.Model):
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True, blank = True)
+    achievement_title = models.CharField(max_length=200)
+    achievement_text = models.TextField(max_length=500, blank = True, null=True)
+    achievement_threshold = models.IntegerField(default=0)
+    def __str__(self):
+        return self.achievement_title
+
+class GoalAchievement(models.Model):
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True, blank = True)
+    goal_achievement_title = models.CharField(max_length=200)
+    goal_achievement_text = models.TextField(max_length=500, blank = True, null=True)
+    goal_achievement_threshold = models.IntegerField(default=0)
+    def __str__(self):
+        return self.achievement_title

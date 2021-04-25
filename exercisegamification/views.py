@@ -5,10 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from .forms import EditProfileForm, AddGoalForm, EditGoalForm
 from .models import Profile, Goal, Relationship
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .forms import EditProfileForm, AddGoalForm, AddMyWorkoutForm, EditGoalForm, WorkoutDateForm
-from .models import Profile, Goal, Workout, MyWorkout
+from .models import Profile, Goal, Workout, MyWorkout, PointAchievement
 # Create your views here.
 
 def LoginView(LogInView):
@@ -57,11 +57,24 @@ def profilePage(request, pk=None):
     goals_list = loggedProfile.goal_set.all()
     friend_requests = Relationship.objects.invatations_received(loggedProfile)
     workouts_list = loggedProfile.workout_set.all()
+    achievementQuerySet = PointAchievement.objects.filter(author__isnull=True)
+    #achievement = achievementQuerySet.get()
+    users_achievements = loggedProfile.pointachievement_set.all()
     
     loggedProfile.points_total = 0
     for w in workouts_list:
         loggedProfile.points_total += w.points
     loggedProfile.save()
+    for achievement in achievementQuerySet:
+        if loggedProfile.points_total >= achievement.achievement_threshold:
+            if users_achievements.count() == 0:
+                PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+            #for a in users_achievements:
+            if users_achievements.filter(achievement_title=achievement.achievement_title).exists():
+                pass
+            else:
+                PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+
 
     return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list, "workouts_list": workouts_list,'friend_requests':
         friend_requests, 'rel_sender': rel_sender, 'rel_receiver': rel_receiver})
@@ -224,6 +237,14 @@ def EditGoalView(request,pk):
         args = {'req_form': req_form}
         return render(request, 'exercisegamification/edit_goal.html', args)
 
+
+def DeleteGoalView(request,pk):
+    goal = Goal.objects.get(pk=pk)
+    goal.delete()
+    #return HttpResponseRedirect('profile')
+    return redirect('/profile/')
+
+
 def SelectWorkout(request):
     workouts_list = Workout.objects.filter(author = None)
     return render(request, "exercisegamification/select_workout.html", {"workouts_list": workouts_list})
@@ -274,4 +295,10 @@ def MyWorkoutDetailView(request,pk):
     return render(request, "exercisegamification/myworkout_detail.html", {"profile": loggedProfile,"myworkout": myworkout})
 
 
+def AchievementsView(request):
+    loggedProfile = Profile.objects.get(user=request.user)
+    #achievement = Achievement.objects.get(pk=pk)
+    #if loggedProfile.points_total >= achievement.achievement_threshold:
+    achievements_list = loggedProfile.pointachievement_set.all()
+    return render(request, "exercisegamification/achievements.html", {"profile": loggedProfile,"achievements_list": achievements_list})
 
