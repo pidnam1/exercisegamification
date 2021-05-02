@@ -45,6 +45,7 @@ urlpatterns = [
     path('workout/<int:pk>', views.WorkoutDetailView, name = 'add workout'),
     path('workout/', views.SelectWorkout, name = 'select workout'),
     path('myworkouts/', views.MyWorkoutView.as_view(), name = 'myworkouts list'),
-    path('myworkouts/<int:pk>', views.MyWorkoutView.as_view(), name = 'myworkout detail')
+    path('myworkouts/<int:pk>', views.MyWorkoutView.as_view(), name = 'myworkout detail'),
+    path('leaderboard/', views.leaderboard, name='leaderboard')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

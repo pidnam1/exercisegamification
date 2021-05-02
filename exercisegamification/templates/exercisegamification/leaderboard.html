@@ -1,0 +1,16 @@
+{%  extends 'exercisegamification/base.html' %}
+{% block content %}
+    <div class = "container">
+    <body>
+    <h1>Leaderboard</h1>
+    <a>Users with the most points</a>
+    <ul>
+        <script> i = 1</script>
+        {% for profile in users %}
+        {{forloop.counter}} <a href="{% url 'other profile' pk=profile.pk%}">{{ profile }} </a>  {{profile.points_total}} <br/>
+        {% endfor %}
+    </ul>
+    </body>
+    </div>
+
+{% endblock%}

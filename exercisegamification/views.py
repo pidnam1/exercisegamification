@@ -109,6 +109,11 @@ def edit_profile(request):
 def find_friends(request):
     return render(request, 'exercisegamification/find_friends.html', {'users': Profile.objects.all()})
 
+def leaderboard(request):
+    return render(request, 'exercisegamification/Leaderboard.html', {'users': Profile.objects.order_by('-points_total')[:10]})
+
+#class LeaderboardView(generic.ListView):
+
 
 def send_friend_request(request):
     if request.method == 'POST':
