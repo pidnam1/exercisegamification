@@ -20,14 +20,13 @@
                 {{ goal.goal_text }}</li>
         {% endfor %}
     </ul>
-    <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>-->
+    <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>
     <h1>Workout</h1>
     {% for workout in workouts_list %}
         <li>{{workout.workout_title}} - {{workout.date}}</li>
     {% endfor %}
     <a href = "{% url 'select workout' %}" class = "btn btn-outline-info"> Workout </a>
     </div>
-    <!--
        <img src="{{profile.profile_pic}}" width=200 height=200 class="rounded-circle">
     </div>-->
 {% load static %}
@@ -46,8 +45,28 @@
                     <div class="mt-3">
                       <h4>{{profile.first_name}} {{profile.last_name}}</h4>
                       <p class="text-muted font-size-sm">Username: {{profile.user}}</p>
+                      <p class="text-muted font-size-sm">Friends: {{profile.friends.all.count}}</p>
                       <p class="text-muted font-size-sm">Age: {{profile.age}}</p>
+                      {% if user == profile.user %}
                       <a href = "{% url 'edit_profile' %}" class = "btn btn-outline-info"> Edit Profile </a>
+                      {% endif %}
+                      {% if user != profile.user and profile.user not in rel_receiver and profile.user not in rel_sender %}
+                      <form action="{% url 'send friend request' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_pk" value={{profile.pk}}>
+                        <button type="submit" class="btn btn-outline-info">Add Friend</button>
+                      </form>
+                      {% endif %}
+                      {% if user != profile.user and profile.user in rel_receiver and user not in profile.friends.all %}
+                        <a class="btn btn-outline-info">Request Pending</a>
+                      {% endif %}
+                      {% if user != profile.user and profile.user in user.profile.friends.all %}
+                      <form action="{% url 'remove friend' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_pk" value={{profile.pk}}>
+                        <button type="submit" class="btn btn-outline-info">Remove Friend</button>
+                      </form>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
@@ -117,15 +136,48 @@
                     <div class="col-sm-9 text-secondary">
                       <ul>
                         {% for goal in goals_list %}
-                          <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>
+                          {% if user != profile.user %}
+                          <li><a href="{% url 'others goal detail' pk=goal.pk pi=profile.pk %}">{{ goal.title }}</a> - {{ goal.author }}<br/>
                           {{ goal.goal_text }}</li>
+                          {% else %}
+                          <li><a href="{% url 'goal detail' goal.pk %}">{{ goal.title }}</a> - {{ goal.author }}<br/>
+                          {{ goal.goal_text }}</li>
+                          {% endif %}
                         {% endfor %}
                       </ul>
+                      {% if user == profile.user %}
                       <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
               </div>
+              {% if user == profile.user %}
+              <div class="row gutters-sm">
+                <div class="col-sm-12 mb-3">
+                  <div class="card h-100">
+                    <ul class="list-group list-group-flush">
+                      {% for request in friend_requests %}
+                       <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <a href="{% url 'other profile' request.sender.pk%}">{{ request.sender }}</a>
+                         <form action="{% url 'accept request' %}" method="POST">
+                           {% csrf_token %}
+                           <input type="hidden" name="profile_pk" value="{{request.sender.pk}}">
+                           <button type="submit" class="btn btn-outline-info">Accept Request</button>
+                         </form>
+                         <form action="{% url 'decline request' %}" method="POST">
+                           {% csrf_token %}
+                           <input type="hidden" name="profile_pk" value="{{request.sender.pk}}">
+                           <button type="submit" class="btn btn-outline-info">Decline Request</button>
+                         </form>
+                       </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+
               <!-- Goals Progress html template
               <div class="row gutters-sm">
                 <div class="col-sm-6 mb-3">

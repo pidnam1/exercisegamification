@@ -6,16 +6,19 @@
     <p>{{ goal.goal_text }}</p>
     <p>Created: {{ goal.pub_date }}</p>
     <p>Target Reach Date: {{ goal.reach_date }}</p>
-    <p>Accomplished?
+    <p>
         {% if goal.accomplished == True %}
-            Yes!
+            Accomplished
             {% else %}
-            In progress!
+            In progress
         {% endif %}
     </p>
-    <a href = "{% url 'edit goal' goal.pk%}" class = "btn btn-outline-info"> Edit </a><br/><br/>
+    {% if user == profile.user %}
+    <a href = "{% url 'edit goal' goal.pk%}" class = "btn btn-outline-info"> Edit </a>
+    <a href = "{% url 'delete goal' goal.pk%}" class = "btn btn-outline-info"> Delete </a><br/><br/>
+    {% endif %}
 
-    <a href = "{% url 'goals list' %}" class = "btn btn-outline-info"> Back to All Goals </a>
+    <a href = "{% url 'profile' %}" class = "btn btn-outline-info"> Back to Profile </a>
     </body>
     </div>
 {% endblock %}

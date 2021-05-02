@@ -1,0 +1,12 @@
+{%  extends 'exercisegamification/base.html' %}
+{% block content %}
+
+    <body>
+    <h1>My Achievements</h1>
+    {% for achievement in achievements_list %}
+        <li>{{ achievement.achievement_title }}<br/>
+            {{ achievement.achievement_text }}</li>
+    {% endfor %}
+    </body>
+{% endblock %}
+</html>

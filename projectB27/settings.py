@@ -56,7 +56,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+#Security
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = False
 ROOT_URLCONF = 'projectB27.urls'
 
 TEMPLATES = [
@@ -83,9 +86,13 @@ WSGI_APPLICATION = 'projectB27.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd4bcjja1lggna3',
+        'HOST' : 'ec2-54-164-238-108.compute-1.amazonaws.com',
+        'PORT' : '5432',
+        'USER' : 'qxefyjrpmaysbw',
+        'PASSWORD' : '4501f9927ac207fe365ab4f5ddde595f4d5e13f3db325e2b6a225854e056a12c',
+    },
 }
 
 
@@ -155,6 +162,6 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-SITE_ID = 3
+SITE_ID = 4
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'

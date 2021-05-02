@@ -2,7 +2,7 @@
 {% block content %}
     <div class = "container">
     <body>
-    <h1>My Goals</h1>
+    <h1>Goals</h1>
     <ul>
         {% for goal in goals_list %}
             <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>

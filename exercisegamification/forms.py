@@ -5,12 +5,12 @@ from django.forms import ModelForm, Field
 from .models import Profile, Goal, MyWorkout, Workout
 
 class EditProfileForm(ModelForm):
-    first_name = forms.CharField(max_length=50, required=True)
-    last_name = forms.CharField(max_length=50, required=True)
-    age = forms.IntegerField(max_value=None,min_value=0, label="Age")
-    weight = forms.IntegerField(max_value=None, min_value=0, required=False, label='Weight*')
-    bmi = forms.IntegerField(max_value=100, min_value=0, required=False, label='BMI*')
-    fav_exercise = forms.CharField(max_length=500, required=True)
+    first_name = forms.CharField(max_length=50, required=True, label="First Name*")
+    last_name = forms.CharField(max_length=50, required=True, label="Last Name*")
+    age = forms.IntegerField(max_value=None,min_value=0, required=True, label="Age*")
+    weight = forms.IntegerField(max_value=None, min_value=0, required=False, label='Weight')
+    bmi = forms.IntegerField(max_value=100, min_value=0, required=False, label='BMI')
+    fav_exercise = forms.CharField(max_length=500, required=True, label="Favorite Exercises/Activities*")
     profile_pic = forms.ImageField(required=False, label='Profile Picture')
 
     class Meta:
