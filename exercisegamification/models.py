@@ -137,8 +137,8 @@ class FriendRequest(models.Model):
 class Goal(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
     title = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
-    reach_date = models.DateTimeField('reach date')
+    pub_date = models.DateField('date published')
+    reach_date = models.DateField('reach date')
     goal_text = models.TextField(max_length=500, blank = True, null=True)
     accomplished = models.BooleanField('have accomplished')
     def __str__(self):
