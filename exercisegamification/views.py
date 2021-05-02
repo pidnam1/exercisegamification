@@ -127,7 +127,7 @@ def leaderboard(request):
 
 #class LeaderboardView(generic.ListView):
 
-
+#friends
 def send_friend_request(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
@@ -138,7 +138,7 @@ def send_friend_request(request):
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profile')
 
-
+#friends
 def remove_friend(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
@@ -152,7 +152,7 @@ def remove_friend(request):
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profile')
 
-
+#friends
 def accept_invitation(request):
     if request.method == "POST":
         pk = request.POST.get('profile_pk')
@@ -164,7 +164,7 @@ def accept_invitation(request):
             rel.save()
     return redirect('profile')
 
-
+#friends
 def reject_invitation(request):
     if request.method == "POST":
         pk = request.POST.get('profile_pk')
@@ -183,6 +183,7 @@ def reject_invitation(request):
 # *  URL: https://www.youtube.com/watch?v=CnaB4Nb0-R8
 # *
 # ***************************************************************************************/
+#goals
 class GoalsView(generic.ListView):
     model = Goal
     template_name = 'exercisegamification/goals_list.html'
@@ -193,7 +194,7 @@ class GoalsView(generic.ListView):
 #class GoalDetailView(generic.DetailView):
 #    model = Goal
 #    template_name = 'exercisegamification/goal_detail.html'
-
+#goals
 def GoalDetailView(request, pk, pi=None):
     if pi:
         loggedProfile = Profile.objects.get(pk=pi)
@@ -201,7 +202,7 @@ def GoalDetailView(request, pk, pi=None):
         loggedProfile = Profile.objects.get(user=request.user)
     goal = loggedProfile.goal_set.get(pk=pk)
     return render(request, "exercisegamification/goal_detail.html", {"profile": loggedProfile,"goal": goal})
-
+#goals
 def AddGoalView(request):
     loggedProfile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
@@ -220,7 +221,7 @@ def AddGoalView(request):
         req_form = AddGoalForm()
         args = {'req_form': req_form}
         return render(request, 'exercisegamification/add_goal.html', args)
-
+#goals
 def EditGoalView(request,pk):
     loggedProfile = Profile.objects.get(user=request.user)
     goal = loggedProfile.goal_set.get(pk=pk)
@@ -242,19 +243,19 @@ def EditGoalView(request,pk):
         args = {'req_form': req_form}
         return render(request, 'exercisegamification/edit_goal.html', args)
 
-
+#goals
 def DeleteGoalView(request,pk):
     goal = Goal.objects.get(pk=pk)
     goal.delete()
     #return HttpResponseRedirect('profile')
     return redirect('/profile/')
 
-
+#workouts
 def SelectWorkout(request):
     workouts_list = Workout.objects.filter(author = None)
     return render(request, "exercisegamification/select_workout.html", {"workouts_list": workouts_list})
 
-
+#workouts
 def WorkoutDetailView(request, pk):
     loggedProfile = Profile.objects.get(user=request.user)
     workout = Workout.objects.get(pk=pk)
@@ -276,14 +277,14 @@ def WorkoutDetailView(request, pk):
     return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form})
 
 
-
+#workouts
 class MyWorkoutView(generic.ListView):
     model = MyWorkout
     template_name = 'exercisegamification/myworkouts_list.html'
     context_object_name = 'myworkouts_list'
     def get_queryset(self):
         return MyWorkout.objects.all()
-
+#workouts
 def AddMyWorkoutView(request):
     loggedProfile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
@@ -293,13 +294,13 @@ def AddMyWorkoutView(request):
             myworkout.myworkout_title = req_form.cleaned_data.get('workout_title')
             myworkout.myworkout_description = req_form.cleaned_data.get('workout_description')
 
-
+#workouts
 def MyWorkoutDetailView(request,pk):
     loggedProfile = Profile.objects.get(user=request.user)
     myworkout = loggedProfile.goal_set.get(pk=pk)
     return render(request, "exercisegamification/myworkout_detail.html", {"profile": loggedProfile,"myworkout": myworkout})
 
-
+#achievements
 def AchievementsView(request):
     loggedProfile = Profile.objects.get(user=request.user)
     #achievement = Achievement.objects.get(pk=pk)
