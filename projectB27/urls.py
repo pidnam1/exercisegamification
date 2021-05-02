@@ -41,6 +41,7 @@ urlpatterns = [
     path('profile/<int:pi>/goals/<int:pk>', views.GoalDetailView, name="others goal detail"),
     path('goals/create/', views.AddGoalView, name='add goal'),
     path('goals/edit/<int:pk>', views.EditGoalView, name='edit goal'),
+    path('goals/delete/<int:pk>', views.DeleteGoalView, name='delete goal'),
     path('find_friends/', views.find_friends, name='find_friends'),
     path('workout/<int:pk>', views.WorkoutDetailView, name = 'add workout'),
     path('workout/', views.SelectWorkout, name = 'select workout'),
