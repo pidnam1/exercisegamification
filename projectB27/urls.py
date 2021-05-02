@@ -41,12 +41,11 @@ urlpatterns = [
     path('profile/<int:pi>/goals/<int:pk>', views.GoalDetailView, name="others goal detail"),
     path('goals/create/', views.AddGoalView, name='add goal'),
     path('goals/edit/<int:pk>', views.EditGoalView, name='edit goal'),
-    path('goals/delete/<int:pk>', views.DeleteGoalView, name='delete goal'),
     path('find_friends/', views.find_friends, name='find_friends'),
     path('workout/<int:pk>', views.WorkoutDetailView, name = 'add workout'),
     path('workout/', views.SelectWorkout, name = 'select workout'),
     path('myworkouts/', views.MyWorkoutView.as_view(), name = 'myworkouts list'),
     path('myworkouts/<int:pk>', views.MyWorkoutView.as_view(), name = 'myworkout detail'),
-    path('achievements/', views.AchievementsView, name = 'achievements'),
+    path('leaderboard/', views.leaderboard, name='leaderboard')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
