@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.db.models import Q
@@ -9,8 +11,44 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .forms import EditProfileForm, AddGoalForm, AddMyWorkoutForm, EditGoalForm, WorkoutDateForm
 from .models import Profile, Goal, Workout, MyWorkout, PointAchievement
+from email.mime.text import MIMEText
+import base64
+import os.path
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from apiclient import errors
 # Create your views here.
 
+
+# If modifying these scopes, delete the file token.json.
+SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+
+def get_service():
+    """Shows basic usage of the Gmail API.
+    Lists the user's Gmail labels.
+    """
+    creds = None
+    # The file token.json stores the user's access and refresh tokens, and is
+    # created automatically when the authorization flow completes for the first
+    # time.
+    if os.path.exists('token.json'):
+        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open('token.json', 'w') as token:
+            token.write(creds.to_json())
+    credentials = creds
+    service = build('gmail', 'v1', credentials=creds)
+    return service
 def LoginView(LogInView):
     if LogInView.user.is_authenticated:
         loggedProfile = LogInView.user.profile
@@ -134,11 +172,61 @@ def send_friend_request(request):
         sender = Profile.objects.get(user=request.user)
         receiver = Profile.objects.get(pk=pk)
 
+        friend_string = receiver.user.username
+        message_body = "Hi " + friend_string + "! You just received a friend request from " + sender.user.username + "! Go to https://project-b27.herokuapp.com/profile/ to accept the request!" 
+        message = create_message("exercisegamificationb27@gmail.com", receiver.user.email, "New Friend Request" , message_body)
+        print(receiver.user.email)
+        service = get_service()
+        send_message(service, "exercisegamificationb27@gmail.com", message)
+
         rel = Relationship.objects.create(sender=sender, receiver=receiver, status='pending')
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profile')
 
+<<<<<<< HEAD
 #friends
+=======
+def create_message(sender, to, subject, message_text):
+  """Create a message for an email.
+
+  Args:
+    sender: Email address of the sender.
+    to: Email address of the receiver.
+    subject: The subject of the email message.
+    message_text: The text of the email message.
+
+  Returns:
+    An object containing a base64url encoded email object.
+  """
+  message = MIMEText(message_text)
+  message['to'] = to
+  message['from'] = sender
+  message['subject'] = subject
+  return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
+
+def send_message(service, user_id, message):
+  """Send an email message.
+
+  Args:
+    service: Authorized Gmail API service instance.
+    user_id: User's email address. The special value "me"
+    can be used to indicate the authenticated user.
+    message: Message to be sent.
+
+  Returns:
+    Sent Message.
+  """
+  try:
+    message = (service.users().messages().send(userId=user_id, body=message)
+               .execute())
+    print ('Message Id: %s' % message['id'])
+    return message
+  except errors.HttpError as error:
+    print('An error occurred: %s' % error)
+
+
+
+>>>>>>> origin/emailsend
 def remove_friend(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
@@ -307,4 +395,5 @@ def AchievementsView(request):
     #if loggedProfile.points_total >= achievement.achievement_threshold:
     achievements_list = loggedProfile.pointachievement_set.all()
     return render(request, "exercisegamification/achievements.html", {"profile": loggedProfile,"achievements_list": achievements_list})
+
 
