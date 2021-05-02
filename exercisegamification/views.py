@@ -173,7 +173,7 @@ def send_friend_request(request):
         receiver = Profile.objects.get(pk=pk)
 
         friend_string = receiver.user.username
-        message_body = "Hi " + friend_string + "! You just received a friend request from " + sender.user.username + "!"
+        message_body = "Hi " + friend_string + "! You just received a friend request from " + sender.user.username + "! Go to https://project-b27.herokuapp.com/profile/ to accept the request!" 
         message = create_message("exercisegamificationb27@gmail.com", receiver.user.email, "New Friend Request" , message_body)
         print(receiver.user.email)
         service = get_service()
