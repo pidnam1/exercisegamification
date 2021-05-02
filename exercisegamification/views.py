@@ -183,9 +183,7 @@ def send_friend_request(request):
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profile')
 
-<<<<<<< HEAD
 #friends
-=======
 def create_message(sender, to, subject, message_text):
   """Create a message for an email.
 
@@ -226,7 +224,6 @@ def send_message(service, user_id, message):
 
 
 
->>>>>>> origin/emailsend
 def remove_friend(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
