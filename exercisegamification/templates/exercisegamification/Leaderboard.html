@@ -2,8 +2,25 @@
 {% block content %}
     <div class = "container">
     <body>
+    <h1>Leaderboard</h1></br>
+    <table class="table table-sm table-bordered table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">User</th>
+            <th scope="col">Points</th>
+        </tr>
+        </thead>
+        <tbody>    
         {% for profile in users %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td><a href="{% url 'other profile' pk=profile.pk%}">{{ profile }} </a></td>
+            <td>{{profile.points_total}}</td>
+        </tr>
         {% endfor %}
+            </tbody>
+    </table>
     </body>
     </div>
 
