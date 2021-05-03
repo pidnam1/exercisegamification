@@ -11,7 +11,10 @@ class EditProfileForm(ModelForm):
     weight = forms.IntegerField(max_value=None, min_value=0, required=False, label='Weight*')
     bmi = forms.IntegerField(max_value=100, min_value=0, required=False, label='BMI*')
     fav_exercise = forms.CharField(max_length=500, required=True)
-    profile_pic = forms.ImageField(required=False, label='Profile Picture')
+    profile_pic = forms.ImageField(required=False, label='Profile Picture', error_messages = {
+                 'required':"Please Enter your Name"
+                 })
+
 
     class Meta:
         model = Profile

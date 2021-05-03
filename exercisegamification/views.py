@@ -135,7 +135,12 @@ def edit_profile(request):
     if request.method == 'POST':
 
 
-        req_form = EditProfileForm(request.POST, request.FILES)
+        req_form = EditProfileForm(request.POST or None, request.FILES or None)
+        if req_form.errors:
+            print(req_form.errors.as_data())
+            args = {'req_form': req_form}
+            return render(request, 'exercisegamification/edit_profile.html', args)
+
         if req_form.is_valid():
 
             ## Saves all the filled out form values to the profile
@@ -145,10 +150,24 @@ def edit_profile(request):
             loggedProfile.weight = req_form.cleaned_data.get('weight')
             loggedProfile.bmi = req_form.cleaned_data.get('bmi')
             loggedProfile.fav_exercise = req_form.cleaned_data.get('fav_exercise')
-            loggedProfile.profile_pic = req_form.cleaned_data.get('profile_pic')
+
+
+            if (loggedProfile.profile_pic != None and req_form.cleaned_data.get('profile_pic') == None):
+                pass
+            else:
+                loggedProfile.profile_pic = req_form.cleaned_data.get('profile_pic')
             loggedProfile.save()
 
+            print(loggedProfile.profile_pic)
+            print(type(loggedProfile.profile_pic))
+            if loggedProfile.profile_pic == "False" or loggedProfile.profile_pic == False :
+                loggedProfile.profile_pic = None
+                loggedProfile.save()
+                print(loggedProfile.profile_pic)
+
             return redirect('/profile/')
+        else:
+            print(req_form.errors)
     else:
         req_form = EditProfileForm(initial = {'first_name':loggedProfile.first_name, 'last_name': loggedProfile.last_name, 'age'
                                           :loggedProfile.age, 'weight': loggedProfile.weight, 'bmi': loggedProfile.bmi,
