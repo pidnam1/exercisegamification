@@ -60,7 +60,7 @@ def profilePage(request, pk=None):
     achievementQuerySet = PointAchievement.objects.filter(author__isnull=True)
     #achievement = achievementQuerySet.get()
     users_achievements = loggedProfile.pointachievement_set.all()
-    
+
     loggedProfile.points_total = 0
     for w in workouts_list:
         loggedProfile.points_total += w.points
@@ -107,7 +107,10 @@ def edit_profile(request):
             loggedProfile.weight = req_form.cleaned_data.get('weight')
             loggedProfile.bmi = req_form.cleaned_data.get('bmi')
             loggedProfile.fav_exercise = req_form.cleaned_data.get('fav_exercise')
-            loggedProfile.profile_pic = req_form.cleaned_data.get('profile_pic')
+            if(loggedProfile.profile_pic != None and req_form.cleaned_data.get('profile_pic') == None):
+                pass
+            else:
+                loggedProfile.profile_pic = req_form.cleaned_data.get('profile_pic')
             loggedProfile.save()
 
             return redirect('/profile/')
@@ -259,6 +262,28 @@ def SelectWorkout(request):
 def WorkoutDetailView(request, pk):
     loggedProfile = Profile.objects.get(user=request.user)
     workout = Workout.objects.get(pk=pk)
+    workouts_list = loggedProfile.workout_set.all()
+    achievementQuerySet = PointAchievement.objects.filter(author__isnull=True)
+    users_achievements = loggedProfile.pointachievement_set.all()
+    display_modal = False
+    for achievement in achievementQuerySet:
+        if loggedProfile.points_total + workout.points >= achievement.achievement_threshold:
+            if users_achievements.count() == 0:
+                #PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+                display_modal = True
+                achievement_name = achievement.achievement_title
+                achievement_body = achievement.achievement_text
+                #return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal": display_modal})
+            #for a in users_achievements:
+            if users_achievements.filter(achievement_title=achievement.achievement_title).exists():
+                pass
+            else:
+                #PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+                display_modal = True
+                achievement_name = achievement.achievement_title
+                achievement_body = achievement.achievement_text
+                #return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal": display_modal})
+    print(display_modal)
     if request.method == 'POST':
         req_form = WorkoutDateForm(request.POST)
         if req_form.is_valid():
@@ -270,11 +295,33 @@ def WorkoutDetailView(request, pk):
             added_workout.date = req_form.cleaned_data.get('date')
             added_workout.save()
 
+            '''
+            loggedProfile.points_total = 0
+            for w in workouts_list:
+                loggedProfile.points_total += w.points
+            loggedProfile.save()
+            for achievement in achievementQuerySet:
+                if loggedProfile.points_total >= achievement.achievement_threshold:
+                    if users_achievements.count() == 0:
+                        PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+                        display_modal = True
+                        return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal": display_modal})
+                    #for a in users_achievements:
+                    if users_achievements.filter(achievement_title=achievement.achievement_title).exists():
+                        pass
+                    else:
+                        PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+                        display_modal = True
+                        return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal": display_modal})
+            '''
             return redirect('/profile/')
+            #return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal":display_modal})
+
     else:
         req_form = WorkoutDateForm
         args = {'req_form': req_form}
-    return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form})
+
+    return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal":display_modal, "achievement_name":achievement_name, "achievement_body":achievement_body})
 
 
 #workouts
