@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import ModelForm, Field
 from .models import Profile, Goal, MyWorkout, Workout
+from datetime import date
 
 class EditProfileForm(ModelForm):
     first_name = forms.CharField(max_length=50, required=True, label="First Name*")
@@ -29,7 +30,7 @@ class AddGoalForm(ModelForm):
     title = forms.CharField(max_length=50, required=True)
     pub_date = forms.DateTimeField(required=True, label="Date Created")
     reach_date = forms.DateTimeField(required=True, label='Target Reach Date')
-    pub_date = forms.DateField(required=True, label="Date Created")
+    pub_date = forms.DateField(initial=date.today, required=True, label="Date Created")
     reach_date = forms.DateField(required=True, label='Target Reach Date')
     goal_text = forms.CharField(required=True)
     accomplished = forms.BooleanField(required=True)
@@ -78,7 +79,7 @@ class AddMyWorkoutForm(ModelForm):
             )
 
 class WorkoutDateForm(ModelForm):
-    date = forms.DateTimeField(required=True, label="Date Completed")
+    date = forms.DateField(initial=date.today, required=True, label="Date Completed")
 
     class Meta:
         model = Workout

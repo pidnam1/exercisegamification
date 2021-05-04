@@ -283,6 +283,8 @@ def WorkoutDetailView(request, pk):
                 achievement_name = achievement.achievement_title
                 achievement_body = achievement.achievement_text
                 #return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal": display_modal})
+    achievement_name = achievement.achievement_title
+    achievement_body = achievement.achievement_text
     print(display_modal)
     if request.method == 'POST':
         req_form = WorkoutDateForm(request.POST)
