@@ -11,6 +11,7 @@
         <form method="POST">
             {% csrf_token %}
             {{ req_form.as_p }}
+            {{ req_form.media }}
             {% if display_modal %}
             <button type="button" class = "btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">I've Completed This Workout</button>
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">

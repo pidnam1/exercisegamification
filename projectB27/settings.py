@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'bootstrap_datepicker_plus',
+    'bootstrap4',
 
 ]
 
@@ -161,6 +163,9 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 SITE_ID = 4
 LOGIN_REDIRECT_URL = '/profile/'

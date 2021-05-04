@@ -1,4 +1,5 @@
 {%  extends 'exercisegamification/base.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +15,7 @@
         <form method="POST">
             {% csrf_token %}
             {{ req_form.as_p }}
+            {{ req_form.media }}
             <button type="submit" class = "btn btn-outline-info">Update</button>
         </form>
     </div>
