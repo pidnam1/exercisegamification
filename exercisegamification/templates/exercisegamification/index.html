@@ -3,15 +3,15 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class = "container">
-    <h1>Welcome {{profile.first_name}}</h1>
+    <h1>Welcome, {{profile.first_name}}</h1></br>
     {% if friends|length == 0 %}
     <p> Add friends to see their recent activity on your feed!</p>
     {% else %}
-    <h2>Here are your friends' recent activities</h2>
+    <h2>Here are your friends' recent activities:</h2>
     {% for workout in workouts %}
     <div class = "card">
         <div class = "card-body">
-    <p> {{workout.author.user.username}} completed {{workout.workout_title}} for {{workout.points}} points on {{workout.date}}</p>
+    <p> <a href="{% url 'other profile' pk=workout.author.user.pk%}">{{ workout.author.user.username }} </a> completed {{workout.workout_title}} for {{workout.points}} points on {{workout.date}}</p>
 
 
         </div>

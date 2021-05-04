@@ -5,6 +5,7 @@ from django.forms import ModelForm, Field
 from .models import Profile, Goal, MyWorkout, Workout
 
 class EditProfileForm(ModelForm):
+
     first_name = forms.CharField(max_length=50, required=True)
     last_name = forms.CharField(max_length=50, required=True)
     age = forms.IntegerField(max_value=None,min_value=0, label="Age")
