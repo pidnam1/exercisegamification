@@ -23,6 +23,19 @@ from apiclient import errors
 
 
 # If modifying these scopes, delete the file token.json.
+
+# /***************************************************************************************
+# *  REFERENCES
+# *  Title: edit profile
+# *  Author: Google Developers
+# *  Date: 04/28/2021
+# *
+# *  URL: https://developers.google.com/gmail/api/guides
+# *
+# *  Title: Gmail API Integration
+# *
+# ***************************************************************************************/
+
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 
 def get_service():
@@ -63,6 +76,7 @@ def LoginView(LogInView):
 
     else:
         return render(LogInView, "exercisegamification/index.html")
+
 def profilePage(request, pk=None):
     rel_receiver = []
     rel_sender = []
@@ -129,6 +143,7 @@ def profilePage(request, pk=None):
 # *  Title: Basic edit profile
 # *
 # ***************************************************************************************/
+
 def edit_profile(request):
     loggedProfile = Profile.objects.get(user=request.user)
 
@@ -203,6 +218,18 @@ def send_friend_request(request):
     return redirect('profile')
 
 
+# /***************************************************************************************
+# *  REFERENCES
+# *  Title: edit profile
+# *  Author: Google Developers
+# *  Date: 04/28/2021
+# *
+# *  URL: https://developers.google.com/gmail/api/guides
+# *
+# *  Title: Gmail API Integration
+# *
+# ***************************************************************************************/
+
 def create_message(sender, to, subject, message_text):
   """Create a message for an email.
 
@@ -220,6 +247,18 @@ def create_message(sender, to, subject, message_text):
   message['from'] = sender
   message['subject'] = subject
   return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
+
+# /***************************************************************************************
+# *  REFERENCES
+# *  Title: edit profile
+# *  Author: Google Developers
+# *  Date: 04/28/2021
+# *
+# *  URL: https://developers.google.com/gmail/api/guides
+# *
+# *  Title: Gmail API Integration
+# *
+# ***************************************************************************************/
 
 def send_message(service, user_id, message):
   """Send an email message.
