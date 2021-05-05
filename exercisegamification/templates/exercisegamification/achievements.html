@@ -1,10 +1,11 @@
 {%  extends 'exercisegamification/base.html' %}
 {% block content %}
-
+{% load static %}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <body>
 
     <h1 style = "padding-bottom: 5%; text-align: center;">My Achievements</h1>
-
+    <h5>{{progress_num}}/10 Completed</h5>
     <div class="progress">
   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%;"></div>
 </div>

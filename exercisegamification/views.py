@@ -460,7 +460,8 @@ def AchievementsView(request):
     #if loggedProfile.points_total >= achievement.achievement_threshold:
     achievements_list = loggedProfile.pointachievement_set.all()
     progress_bar = 10 * len(achievements_list)
+    progress_num = len(achievements_list)
     print(progress_bar)
-    return render(request, "exercisegamification/achievements.html", {"profile": loggedProfile,"achievements_list": achievements_list, "progress": progress_bar})
+    return render(request, "exercisegamification/achievements.html", {"profile": loggedProfile,"achievements_list": achievements_list, "progress": progress_bar, "progress_num": progress_num})
 
 
