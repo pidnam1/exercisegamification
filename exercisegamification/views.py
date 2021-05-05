@@ -102,7 +102,9 @@ def profilePage(request, pk=None):
 
     ## Saves profile instance
     user.profile.save()
-    user.save()'''
+    user.save();;
+    '''
+
 
     ## Calls our profile model of specific user
     #loggedProfile = user.profile
