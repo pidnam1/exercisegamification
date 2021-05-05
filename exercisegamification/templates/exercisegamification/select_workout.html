@@ -7,12 +7,12 @@
 
 
     {% for workout in workouts_list %}
-    <div class="card mb-3" style="width: 122.5%;">
+    <div class="card mb-3" style="width: 100%;">
   <div class="row g-0">
     <div class="col-md-4">
       <img src="{{workout.pic.url}}" class="square" width="200" height = "100%">
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
       <div class="card-body">
         <h5 class="card-title">{{ workout.workout_title }}</h5>
         <p class="card-text">{{ workout.workout_description}}</p>
