@@ -162,7 +162,7 @@
                       <tbody>
                         {% for workout in workouts_list %}
                         {% if user == profile.user %}
-                        <td><a href="{% url 'add workout' workout.pk %}">{{ workout.workout_title }}</a></td>
+                        <th><a href="{% url 'add workout' workout.pk %}">{{ workout.workout_title }}</a></th>
                         <td><a href="{% url 'add workout' workout.pk %}">{{ workout.points }}</a></td>
                         {% endif %}
                       {% endfor %}
