@@ -154,6 +154,7 @@ class Workout(models.Model):
     workout_description = models.TextField(max_length=500)
     points = models.IntegerField(default=0)
     date = models.DateField('Workout Completed', null = True, blank = True)
+    pic = models.ImageField(null=True, blank=True, upload_to='workouts/')
     def __str__(self):
         return self.workout_title
 

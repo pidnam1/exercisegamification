@@ -358,6 +358,8 @@ def DeleteGoalView(request,pk):
 #workouts
 def SelectWorkout(request):
     workouts_list = Workout.objects.filter(author = None)
+
+
     return render(request, "exercisegamification/select_workout.html", {"workouts_list": workouts_list})
 
 #workouts
@@ -457,6 +459,8 @@ def AchievementsView(request):
     #achievement = Achievement.objects.get(pk=pk)
     #if loggedProfile.points_total >= achievement.achievement_threshold:
     achievements_list = loggedProfile.pointachievement_set.all()
-    return render(request, "exercisegamification/achievements.html", {"profile": loggedProfile,"achievements_list": achievements_list})
+    progress_bar = 10 * len(achievements_list)
+    print(progress_bar)
+    return render(request, "exercisegamification/achievements.html", {"profile": loggedProfile,"achievements_list": achievements_list, "progress": progress_bar})
 
 
