@@ -27,7 +27,7 @@ class PointAchievementForeignKey(TestCase):
 
 class PointsTracker(TestCase):
     def setUp(self):
-        Profile.objects.create(user = None, first_name = "Mandip", last_name = "Bhadra", age = 20 , points_total = 200)
+        Profile.objects.create(user = None, first_name = "Mandip", last_name = "Bhadra", age = 20 , points_totalp = 200)
         p = Profile.objects.get(first_name="Mandip")
         PointAchievement.objects.create(author = p, achievement_title="Go Getter", achievement_text = "Run", achievement_threshold = 200)
 

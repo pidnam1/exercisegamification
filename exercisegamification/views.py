@@ -474,7 +474,12 @@ def WorkoutDetailView(request, pk):
                         display_modal = True
                         return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal": display_modal})
             '''
-            return redirect('/profile/')
+            if display_modal == True:
+
+                return redirect('/achievements/')
+            else:
+
+                return redirect('/profile/')
             #return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal":display_modal})
 
     else:
