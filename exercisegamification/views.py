@@ -26,7 +26,7 @@ from apiclient import errors
 
 # /***************************************************************************************
 # *  REFERENCES
-# *  Title: edit profile
+# *  Title: get service
 # *  Author: Google Developers
 # *  Date: 04/28/2021
 # *
@@ -228,7 +228,7 @@ def send_friend_request(request):
 
 # /***************************************************************************************
 # *  REFERENCES
-# *  Title: edit profile
+# *  Title: create message
 # *  Author: Google Developers
 # *  Date: 04/28/2021
 # *
@@ -258,7 +258,7 @@ def create_message(sender, to, subject, message_text):
 
 # /***************************************************************************************
 # *  REFERENCES
-# *  Title: edit profile
+# *  Title: send message
 # *  Author: Google Developers
 # *  Date: 04/28/2021
 # *
