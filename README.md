@@ -9,8 +9,7 @@ To use our software you can do the following:
 2) Once you're logged in you can edit your profile to add relevant information about yourself
 3) To do a workout click on the workouts tab and click on a workout you want to do then fill out the date you did the workout and click add workout. 
 Workouts finished can appear on the bottom of your profile.
-4) To add friends go to the find friends tab and click on the name of a friend you want to add, then click on the add friend to add them.
-In addition, you can ask your friend to add you by giving your username to them.
+4) To add friends go to the find friends tab and click on the name of a friend you want to add, then click on the add friend to add them. When you add a friend an email gets sent to them notifying them of your request. In addition, you can ask your friend to add you by giving your username to them.
 5) to view other peoples profiles you can click on their name in find friends, leaderboard, or your feed
 6) to look at the top 10 people with the most points you can click on the leaderboard tab
 7) whenever you earn an achievement you will get a notification at the top of your screen
