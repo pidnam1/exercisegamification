@@ -1,5 +1,6 @@
 {%  extends 'exercisegamification/base.html' %}
 {% block content %}
+{% load static %}
 
     <body>
 
@@ -13,9 +14,10 @@
     {% for achievement in achievements_list %}
 
 
-  <div class="col-sm-4 mb-4">
+  <div class="col-sm-3 mb-4">
     <div class="card">
       <div class="card-body">
+          <img src="{% static 'gold2.png' %}" height="75%" width="50%">
         <h5 class="card-title">{{ achievement.achievement_title }}</h5>
         <p class="card-text">{{ achievement.achievement_text }}</p>
       </div>
@@ -29,5 +31,7 @@
     </div>
      </div>
     </body>
+        <br>
+        <br>
 {% endblock %}
 </html>

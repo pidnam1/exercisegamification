@@ -3,7 +3,8 @@
 {% load static %}
 <link href="{% static 'exercisegamification/workout.css' %}" rel="stylesheet">
 <div class = "container">
-<h1 style = "padding-bottom: 5%;">Our Workouts</h1>
+<h1 style="padding-bottom: 2.5%">Our Workouts</h1>
+    <h3> Log your completed workout to earn points!</h3>
 
 
     {% for workout in workouts_list %}
@@ -23,7 +24,7 @@
 </div>
 
     {% endfor %}
-
+<br>
 
 </div>
 {% endblock %}
