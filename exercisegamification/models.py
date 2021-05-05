@@ -6,7 +6,7 @@ from django.urls import reverse
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null = True, blank = True)
     first_name = models.TextField(max_length=30, blank=True)
     last_name = models.TextField(max_length=30, blank=True)
     age = models.IntegerField(default=0)
