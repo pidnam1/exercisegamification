@@ -1,5 +1,5 @@
 from django.test import TestCase
-from exercisegamification.models import PointAchievement, Profile
+from exercisegamification.models import PointAchievement, Profile, Goal
 
 
 # Create your tests here.
@@ -55,3 +55,23 @@ class ProfileMaker(TestCase):
     def test_get_fav_exercise(self):
         p = Profile.objects.get(first_name="Mandip")
         self.assertEqual(p.fav_exercise, "Running")
+
+        
+class GoalConnectedtoProfileTestCase(TestCase):
+    def setUp(self):
+        Profile.objects.create(user = None, first_name="m", last_name="t", age=12, weight=100, bmi=2, fav_exercise="swim", )
+        p = Profile.objects.get(first_name="m")
+        Goal.objects.create(author=p, title="test", pub_date="2021-05-05", reach_date="2021-05-06", goal_text="testing", accomplished=True)
+    def test_get_goal_author(self):
+        goal = Goal.objects.get(title="test")
+        profile = Profile.objects.get(first_name="m")
+        self.assertEqual(goal.author, profile)
+
+
+class GoalCreationTestCase(TestCase):
+    def setUp(self):
+        Goal.objects.create(title="test", pub_date="2021-05-05", reach_date="2021-05-06", goal_text="testing", accomplished=True)
+    def test_get_goal_name(self):
+        goal = Goal.objects.get(title="test")
+        self.assertEqual(goal.goal_text, "testing")
+
