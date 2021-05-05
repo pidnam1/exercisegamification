@@ -8,6 +8,7 @@
         <form method="POST">
             {% csrf_token %}
             {{ req_form.as_p }}
+            {{ req_form.media }}
             <button type="submit" class = "btn btn-outline-info">Create</button>
         </form>
     </div>
