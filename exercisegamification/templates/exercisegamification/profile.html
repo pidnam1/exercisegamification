@@ -119,15 +119,15 @@
                       {{profile.fav_exercise}}
                     </div>
                   </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h6 class="mb-0">Points</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                            {{profile.points_total}}
-                        </div>
-                    </div>
+                  <hr>
+                  <div class="row">
+                      <div class="col-sm-3">
+                          <h6 class="mb-0">Points</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                          {{profile.points_total}}
+                      </div>
+                  </div>
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
@@ -148,6 +148,21 @@
                       {% if user == profile.user %}
                       <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>
                       {% endif %}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Workouts Done</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <ul>
+                        {% for workout in workouts_list %}
+                          {% if user == profile.user %}
+                          <li><a href="{% url 'select workout' workout.pk %}">{{ workout_title }}</a> - {{ workout.points }}<br/></li>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
                     </div>
                   </div>
                 </div>
