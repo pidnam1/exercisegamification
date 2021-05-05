@@ -152,18 +152,27 @@
                   </div>
                   <hr>
                   <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Workouts Done</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      <ul>
+                    <table class="table table-sm table-bordered table-striped">
+                      <thead>
+                      <tr>
+                          <th scope="col">Workout Done</th>
+                          <th scope="col">Points awarded</th>
+                      </tr>
+                      </thead>
+                      <tbody>
                         {% for workout in workouts_list %}
-                          {% if user == profile.user %}
-                          <li><a href="{% url 'add workout' workout.pk %}">{{ workout_title }}</a> - {{ workout.points }}<br/></li>
-                          {% endif %}
-                        {% endfor %}
-                      </ul>
-                    </div>
+                        <tr>
+                        {% if user != profile.user %}
+                        <th>{{ workout.workout_title }}</th>
+                        <td>{{ workout.points }}</td>
+                        {% else %}
+                        <th><a href="{% url 'add workout' workout.pk %}">{{ workout.workout_title }}</a></th>
+                        <td>{{ workout.points }}</td>
+                        {% endif %}
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
                   </div>
                 </div>
               </div>
