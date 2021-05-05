@@ -27,7 +27,7 @@ class PointAchievementForeignKey(TestCase):
 
 class PointsTracker(TestCase):
     def setUp(self):
-        Profile.objects.create(user = None, first_name = "Mandip", last_name = "Bhadra", age = 20 , points_totalp = 200)
+        Profile.objects.create(user = None, first_name = "Mandip", last_name = "Bhadra", age = 20 , points_total = 200)
         p = Profile.objects.get(first_name="Mandip")
         PointAchievement.objects.create(author = p, achievement_title="Go Getter", achievement_text = "Run", achievement_threshold = 200)
 
@@ -41,16 +41,17 @@ class ProfileMaker(TestCase):
         Profile.objects.create(user = None, first_name = "Mandip", last_name = "Bhadra", age = 20 , points_total = 200, weight = 50, bmi = 5, fav_exercise = "Running")
 
     def test_get_first(self):
-        self.assertEqual(Profile.first_name, str("Mandip"))
-    def test_get_last(self):
-        self.assertEqual(Profile.last_name, str("Bhadra"))
+        p = Profile.objects.get(first_name = "Mandip")
+        self.assertEqual(p.first_name, str(p))
     def test_get_age(self):
-        self.assertEqual(Profile.age, 20)
-    def test_get_points_total(self):
-        self.assertEqual(Profile.age, 200)
+        p = Profile.objects.get(first_name = "Mandip")
+        self.assertEqual(p.age, 20)
     def test_get_weight(self):
-        self.assertEqual(Profile.weight, 50)
+        p = Profile.objects.get(first_name="Mandip")
+        self.assertEqual(p.weight, 50)
     def test_get_BMI(self):
-        self.assertEqual(Profile.bmi, 5)
+        p = Profile.objects.get(first_name="Mandip")
+        self.assertEqual(p.bmi, 5)
     def test_get_fav_exercise(self):
-        self.assertEqual(Profile.fav_exercise, str("Running"))
+        p = Profile.objects.get(first_name="Mandip")
+        self.assertEqual(p.fav_exercise, "Running")
