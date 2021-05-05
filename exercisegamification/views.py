@@ -198,7 +198,15 @@ def leaderboard(request):
     return render(request, 'exercisegamification/Leaderboard.html', {'users': Profile.objects.order_by('-points_total')[:10]})
 
 #class LeaderboardView(generic.ListView):
-
+# /***
+# *  REFERENCES
+# *  Title: How to add friends in Django
+# *  Author: Pyplane
+# *  Date: 04/12/2021
+# *
+# *  URL: https://www.youtube.com/watch?v=x4SkinIjOTc
+# *
+# ***/
 #friends
 def send_friend_request(request):
     if request.method == 'POST':
@@ -335,10 +343,15 @@ class GoalsView(generic.ListView):
     def get_queryset(self):
         return Goal.objects.all()
 
-#class GoalDetailView(generic.DetailView):
-#    model = Goal
-#    template_name = 'exercisegamification/goal_detail.html'
-#goals
+# /*
+# *  REFERENCES
+# *  Title: django-bootstrap-datepicker-plus
+# *  Author: pbucher
+# *  Date: 05/04/2021
+# *
+# *  URL: https://pypi.org/project/django-bootstrap-datepicker-plus/
+# *
+# */
 def GoalDetailView(request, pk, pi=None):
     if pi:
         loggedProfile = Profile.objects.get(pk=pi)

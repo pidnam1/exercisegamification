@@ -21,7 +21,15 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 from exercisegamification import views
-
+# /***
+# *  REFERENCES
+# *  Title: Google Login
+# *  Author: Zoe Chew
+# *  Date: 03/13/2021
+# *
+# *  URL: https://whizzoe.medium.com/in-5-mins-set-up-google-login-to-sign-up-users-on-django-e71d5c38f5d5
+# *
+# ***/
 urlpatterns = [
     path('', views.LoginView, name='login'),
     path('admin/', admin.site.urls),

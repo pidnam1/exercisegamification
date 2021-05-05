@@ -1,34 +1,14 @@
 {% extends "exercisegamification/base.html" %}
 {% block content %}
-<!-- <div class = "container">
-<h1> {{profile.first_name}}  {{profile.last_name}}</h1>
-<h1>Age: {{profile.age}}</h1>
-    {% if profile.weight %}
-    <p>Weight: {{profile.weight}} lbs</p>
-    {% endif %}
-    {% if profile.bmi %}
-    <p>BMI: {{profile.bmi}}</p>
-    {% endif %}
-
-    <a href = "{% url 'edit_profile' %}" class = "btn btn-outline-info"> Edit Profile </a>
-
-    <img src="{{profile.profile_pic}}" width=200 height=200 class="rounded-circle">-->
-    <!--<h1>My Goals</h1>
-    <ul>
-        {% for goal in goals_list %}
-            <li><a href="{% url 'goal detail' goal.pk%}">{{ goal.title }}</a> - {{ goal.author }}<br/>
-                {{ goal.goal_text }}</li>
-        {% endfor %}
-    </ul>
-    <a href = "{% url 'add goal' %}" class = "btn btn-outline-info"> Add Goal </a>
-    <h1>Workout</h1>
-    {% for workout in workouts_list %}
-        <li>{{workout.workout_title}} - {{workout.date}}</li>
-    {% endfor %}
-    <a href = "{% url 'select workout' %}" class = "btn btn-outline-info"> Workout </a>
-    </div>
-       <img src="{{profile.profile_pic}}" width=200 height=200 class="rounded-circle">
-    </div>-->
+<!--- /***
+# *  REFERENCES
+# *  Title: profile HTML
+# *  Author: Bootdey
+# *  Date: 04/12/2021
+# *
+# *  URL: https://www.bootdey.com/snippets/view/profile-with-data-and-skills
+# *
+# ***/-->
 {% load static %}
 <div class="container">
     <div class="main-body">
