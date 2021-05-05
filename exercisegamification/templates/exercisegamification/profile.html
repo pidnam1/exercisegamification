@@ -167,7 +167,7 @@
                         <td>{{ workout.points }}</td>
                         {% else %}
                         <th><a href="{% url 'add workout' workout.pk %}">{{ workout.workout_title }}</a></th>
-                        <td><a href="{% url 'add workout' workout.pk %}">{{ workout.points }}</a></td>
+                        <td>{{ workout.points }}</td>
                         {% endif %}
                         </tr>
                       {% endfor %}
