@@ -162,10 +162,13 @@
                       <tbody>
                         {% for workout in workouts_list %}
                         <tr>
-                        <!--{% if user == profile.user %}-->
+                        {% if user == profile.user %}
                         <th><a href="{% url 'add workout' workout.pk pi=profile.pk %}">{{ workout.workout_title }}</a></th>
                         <td><a href="{% url 'add workout' workout.pk pi=profile.pk %}">{{ workout.points }}</a></td>
-                        <!--{% endif %}-->
+                        {% else %}
+                        <th><a href="{% url 'add workout' workout.pk %}">{{ workout.workout_title }}</a></th>
+                        <td><a href="{% url 'add workout' workout.pk %}">{{ workout.points }}</a></td>
+                        {% endif %}
                         </tr>
                       {% endfor %}
                       </tbody>
