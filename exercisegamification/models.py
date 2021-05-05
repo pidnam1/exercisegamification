@@ -184,6 +184,7 @@ class PointAchievement(models.Model):
     achievement_title = models.CharField(max_length=200)
     achievement_text = models.TextField(max_length=500, blank = True, null=True)
     achievement_threshold = models.IntegerField(default=0)
+
     def __str__(self):
         return self.achievement_title
 
