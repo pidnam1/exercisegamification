@@ -1,13 +1,29 @@
 {% extends "exercisegamification/base.html" %}
 {% block content %}
+{% load static %}
+<link href="{% static 'exercisegamification/workout.css' %}" rel="stylesheet">
 <div class = "container">
-<h1>Our Workouts</h1>
+<h1 style = "padding-bottom: 5%;">Our Workouts</h1>
 
-<ul>
+
     {% for workout in workouts_list %}
-        <li><a href="{% url 'add workout' workout.pk%}">{{ workout.workout_title }}</a> <br/> {{ workout.workout_type}}</li>
+    <div class="card mb-3" style="width: 122.5%;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{workout.pic.url}}" class="square" width="200" height = "100%">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ workout.workout_title }}</h5>
+        <p class="card-text">{{ workout.workout_description}}</p>
+        <a href="{% url 'add workout' workout.pk%}" class = "stretched-link">Log Workout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
     {% endfor %}
-</ul>
+
 
 </div>
 {% endblock %}

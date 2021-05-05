@@ -358,6 +358,8 @@ def DeleteGoalView(request,pk):
 #workouts
 def SelectWorkout(request):
     workouts_list = Workout.objects.filter(author = None)
+
+
     return render(request, "exercisegamification/select_workout.html", {"workouts_list": workouts_list})
 
 #workouts
