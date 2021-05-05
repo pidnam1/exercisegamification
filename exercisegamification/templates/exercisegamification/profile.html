@@ -163,8 +163,8 @@
                         {% for workout in workouts_list %}
                         <tr>
                         {% if user != profile.user %}
-                        <th><a href="{% url 'add workout' workout.pk pi=profile.pk %}">{{ workout.workout_title }}</a></th>
-                        <td><a href="{% url 'add workout' workout.pk pi=profile.pk %}">{{ workout.points }}</a></td>
+                        <th><a href="{% url 'add workout' pk=workout.pk pi=profile.pk %}">{{ workout.workout_title }}</a></th>
+                        <td><a href="{% url 'add workout' pk=workout.pk pi=profile.pk %}">{{ workout.points }}</a></td>
                         {% else %}
                         <th><a href="{% url 'add workout' workout.pk %}">{{ workout.workout_title }}</a></th>
                         <td><a href="{% url 'add workout' workout.pk %}">{{ workout.points }}</a></td>
