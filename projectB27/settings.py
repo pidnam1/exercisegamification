@@ -59,7 +59,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 #Security
-CSRF_COOKIE_SECURE =  True
+CSRF_COOKIE_SECURE =  False
 SESSION_COOKIE_SECURE = False
 SECURE_SSL_REDIRECT = True
 ROOT_URLCONF = 'projectB27.urls'
