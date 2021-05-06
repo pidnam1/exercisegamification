@@ -90,7 +90,7 @@ class GoalCreationTestCase(TestCase):
 
 class WorkoutPointsTest(TestCase):
     def setUp(self):
-        Workout.object.create(workout_title="Abs", workout_type="Calisthenics", workout_description="50 crunches", points=30)
+        Workout.objects.create(workout_title="Abs", workout_type="Calisthenics", workout_description="50 crunches", points=30)
     def test_get_goal_points(self):
         workout = Workout.objects.get(workout_title="Abs")
         self.assertEqual(workout.points, 30)
