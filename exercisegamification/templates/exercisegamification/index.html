@@ -25,7 +25,7 @@
     {% for workout in workouts %}
     <div class = "card mt-3">
         <div class = "card-body">
-    <p> <a href="{% url 'other profile' pk=workout.author.user.pk%}">{{ workout.author.user.username }} </a> completed {{workout.workout_title}} for {{workout.points}} points on {{workout.date}}</p>
+    <p> <a href="{% url 'other profile' pk=workout.author.user.profile.pk%}">{{ workout.author.user.username }} </a> completed {{workout.workout_title}} for {{workout.points}} points on {{workout.date}}</p>
 
 
         </div>
