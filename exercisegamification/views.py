@@ -446,22 +446,7 @@ def WorkoutDetailView(request, pk):
             added_workout.points = workout.points
             added_workout.date = req_form.cleaned_data.get('date')
             added_workout.save()
-            for achievement in achievementQuerySet:
-                if loggedProfile.points_total >= achievement.achievement_threshold:
-                    if users_achievements.count() == 0:
-                        PointAchievement.objects.create(author=loggedProfile,
-                                                        achievement_threshold=achievement.achievement_threshold,
-                                                        achievement_text=achievement.achievement_text,
-                                                        achievement_title=achievement.achievement_title)
-                    # for a in users_achievements:
-                    if users_achievements.filter(achievement_title=achievement.achievement_title).exists():
-                        pass
-                    else:
-                        PointAchievement.objects.create(author=loggedProfile,
-                                                        achievement_threshold=achievement.achievement_threshold,
-                                                        achievement_text=achievement.achievement_text,
-                                                        achievement_title=achievement.achievement_title)
-            loggedProfile.save()
+
 
             '''
             loggedProfile.points_total = 0
@@ -522,6 +507,22 @@ def MyWorkoutDetailView(request,pk):
 
 #achievements
 def AchievementsView(request):
+    for achievement in achievementQuerySet:
+        if loggedProfile.points_total >= achievement.achievement_threshold:
+            if users_achievements.count() == 0:
+                PointAchievement.objects.create(author=loggedProfile,
+                                                achievement_threshold=achievement.achievement_threshold,
+                                                achievement_text=achievement.achievement_text,
+                                                achievement_title=achievement.achievement_title)
+            # for a in users_achievements:
+            if users_achievements.filter(achievement_title=achievement.achievement_title).exists():
+                pass
+            else:
+                PointAchievement.objects.create(author=loggedProfile,
+                                                achievement_threshold=achievement.achievement_threshold,
+                                                achievement_text=achievement.achievement_text,
+                                                achievement_title=achievement.achievement_title)
+    loggedProfile.save()
     loggedProfile = Profile.objects.get(user=request.user)
     #achievement = Achievement.objects.get(pk=pk)
     #if loggedProfile.points_total >= achievement.achievement_threshold:
