@@ -87,6 +87,7 @@ WSGI_APPLICATION = 'projectB27.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
+django_heroku.settings(locals(), test_runner=False)
 
 DATABASES = {
     'default': {
