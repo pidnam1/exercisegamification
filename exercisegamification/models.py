@@ -6,7 +6,7 @@ from django.urls import reverse
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null = True, blank = True)
     first_name = models.TextField(max_length=30, blank=True)
     last_name = models.TextField(max_length=30, blank=True)
     age = models.IntegerField(default=0)
@@ -43,7 +43,7 @@ class Profile(models.Model):
             instance.profile.save()
 
     def __str__(self):
-        return self.user.username
+        return self.first_name
 
 
 STATUS_CHOICES = (
@@ -154,6 +154,7 @@ class Workout(models.Model):
     workout_description = models.TextField(max_length=500)
     points = models.IntegerField(default=0)
     date = models.DateField('Workout Completed', null = True, blank = True)
+    pic = models.ImageField(null=True, blank=True, upload_to='workouts/')
     def __str__(self):
         return self.workout_title
 
@@ -183,6 +184,7 @@ class PointAchievement(models.Model):
     achievement_title = models.CharField(max_length=200)
     achievement_text = models.TextField(max_length=500, blank = True, null=True)
     achievement_threshold = models.IntegerField(default=0)
+
     def __str__(self):
         return self.achievement_title
 

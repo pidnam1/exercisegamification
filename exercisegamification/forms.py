@@ -3,15 +3,21 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import ModelForm, Field
 from .models import Profile, Goal, MyWorkout, Workout
+from datetime import date
+from bootstrap_datepicker_plus import DatePickerInput
 
 class EditProfileForm(ModelForm):
-    first_name = forms.CharField(max_length=50, required=True, label="First Name*")
-    last_name = forms.CharField(max_length=50, required=True, label="Last Name*")
-    age = forms.IntegerField(max_value=None,min_value=0, required=True, label="Age*")
-    weight = forms.IntegerField(max_value=None, min_value=0, required=False, label='Weight')
-    bmi = forms.IntegerField(max_value=100, min_value=0, required=False, label='BMI')
-    fav_exercise = forms.CharField(max_length=500, required=True, label="Favorite Exercises/Activities*")
-    profile_pic = forms.ImageField(required=False, label='Profile Picture')
+
+    first_name = forms.CharField(max_length=50, required=True)
+    last_name = forms.CharField(max_length=50, required=True)
+    age = forms.IntegerField(max_value=None,min_value=0, label="Age")
+    weight = forms.IntegerField(max_value=None, min_value=0, required=False, label='Weight*')
+    bmi = forms.IntegerField(max_value=100, min_value=0, required=False, label='BMI*')
+    fav_exercise = forms.CharField(max_length=500, required=True)
+    profile_pic = forms.ImageField(required=False, label='Profile Picture', error_messages = {
+                 'required':"Please Enter your Name"
+                 })
+
 
     class Meta:
         model = Profile
@@ -29,8 +35,8 @@ class AddGoalForm(ModelForm):
     title = forms.CharField(max_length=50, required=True)
     pub_date = forms.DateTimeField(required=True, label="Date Created")
     reach_date = forms.DateTimeField(required=True, label='Target Reach Date')
-    pub_date = forms.DateField(required=True, label="Date Created")
-    reach_date = forms.DateField(required=True, label='Target Reach Date')
+    pub_date = forms.DateField(widget=DatePickerInput(format='%m/%d/%Y'),initial=date.today, required=True, label="Date Created")
+    reach_date = forms.DateField(widget=DatePickerInput(format='%m/%d/%Y'),required=True, label='Target Reach Date')
     goal_text = forms.CharField(required=True)
     accomplished = forms.BooleanField(required=True)
     accomplished = forms.BooleanField(required=False)
@@ -49,8 +55,8 @@ class EditGoalForm(ModelForm):
     title = forms.CharField(max_length=50, required=True)
     pub_date = forms.DateTimeField(required=True, label="Date Created")
     reach_date = forms.DateTimeField(required=True, label='Target Reach Date')
-    pub_date = forms.DateField(required=True, label="Date Created")
-    reach_date = forms.DateField(required=True, label='Target Reach Date')
+    pub_date = forms.DateField(widget=DatePickerInput(format='%m/%d/%Y'), required=True, label="Date Created")
+    reach_date = forms.DateField(widget=DatePickerInput(format='%m/%d/%Y'), required=True, label='Target Reach Date')
     goal_text = forms.CharField(required=True)
     accomplished = forms.BooleanField(required=True)
     accomplished = forms.BooleanField(required=False)
@@ -78,7 +84,8 @@ class AddMyWorkoutForm(ModelForm):
             )
 
 class WorkoutDateForm(ModelForm):
-    date = forms.DateTimeField(required=True, label="Date Completed")
+    date = forms.DateField(widget=DatePickerInput(format='%m/%d/%Y'), initial=date.today, required=True,
+                           label="Date Completed")
 
     class Meta:
         model = Workout

@@ -3,13 +3,20 @@
     <div class = "container">
     <body>
     <h1>Find Friends</h1>
-    <ul>
+    <table class="table table-sm table-bordered table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Potential Friends</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for profile in users %}
-        {% if profile.user != request.user %}
-        <li><a href="{% url 'other profile' pk=profile.pk%}">{{ profile }}</a><br/></li>
-        {% endif %}
+        <tr>
+            <td><a href="{% url 'other profile' pk=profile.pk%}">{{ profile }} </a></td>
+        </tr>
         {% endfor %}
-    </ul>
+        </tbody>
+    </table>
     </body>
     </div>
 

@@ -1,12 +1,35 @@
 {%  extends 'exercisegamification/base.html' %}
 {% block content %}
-
+{% load static %}
+<link href="{% static 'exercisegamification/achievement.css' %}" rel="stylesheet">
     <body>
-    <h1>My Achievements</h1>
+
+    <h1 style = "padding-bottom: 5%; text-align: center;">My Achievements</h1>
+    <h5>{{progress_num}}/10 Completed</h5>
+    <div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%;"></div>
+</div>
+<div class = "container" style = "padding-top:5%;">
+    <div class = "row">
     {% for achievement in achievements_list %}
-        <li>{{ achievement.achievement_title }}<br/>
-            {{ achievement.achievement_text }}</li>
+
+
+  <div class="col-sm-3 mb-4">
+    <div class="card">
+      <div class="card-body">
+          <img src="{% static 'gold2.png' %}" height="75%" width="75%" style = "padding-left: 20%;">
+        <h5 class="card-title">{{ achievement.achievement_title }}</h5>
+        <p class="card-text">{{ achievement.achievement_text }}</p>
+      </div>
+    </div>
+  </div>
+
+
+
+
     {% endfor %}
+    </div>
+     </div>
     </body>
 {% endblock %}
 </html>

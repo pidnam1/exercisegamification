@@ -23,6 +23,21 @@ from apiclient import errors
 
 
 # If modifying these scopes, delete the file token.json.
+
+
+# /***************************************************************************************
+# *  REFERENCES
+# *  Title: get service
+# *  Author: Google Developers
+# *  Date: 04/28/2021
+# *
+# *  URL: https://developers.google.com/gmail/api/guides
+# *
+# *  Title: Gmail API Integration
+# *
+# ***************************************************************************************/
+
+
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 
 def get_service():
@@ -63,6 +78,7 @@ def LoginView(LogInView):
 
     else:
         return render(LogInView, "exercisegamification/index.html")
+
 def profilePage(request, pk=None):
     rel_receiver = []
     rel_sender = []
@@ -88,7 +104,9 @@ def profilePage(request, pk=None):
 
     ## Saves profile instance
     user.profile.save()
-    user.save()'''
+    user.save();;
+    '''
+
 
     ## Calls our profile model of specific user
     #loggedProfile = user.profile
@@ -98,20 +116,12 @@ def profilePage(request, pk=None):
     achievementQuerySet = PointAchievement.objects.filter(author__isnull=True)
     #achievement = achievementQuerySet.get()
     users_achievements = loggedProfile.pointachievement_set.all()
-    
+
     loggedProfile.points_total = 0
     for w in workouts_list:
         loggedProfile.points_total += w.points
     loggedProfile.save()
-    for achievement in achievementQuerySet:
-        if loggedProfile.points_total >= achievement.achievement_threshold:
-            if users_achievements.count() == 0:
-                PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
-            #for a in users_achievements:
-            if users_achievements.filter(achievement_title=achievement.achievement_title).exists():
-                pass
-            else:
-                PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+
 
 
     return render(request, "exercisegamification/profile.html", {"profile": loggedProfile,"goals_list": goals_list, "workouts_list": workouts_list,'friend_requests':
@@ -129,13 +139,19 @@ def profilePage(request, pk=None):
 # *  Title: Basic edit profile
 # *
 # ***************************************************************************************/
+
 def edit_profile(request):
     loggedProfile = Profile.objects.get(user=request.user)
 
     if request.method == 'POST':
 
 
-        req_form = EditProfileForm(request.POST, request.FILES)
+        req_form = EditProfileForm(request.POST or None, request.FILES or None)
+        if req_form.errors:
+            print(req_form.errors.as_data())
+            args = {'req_form': req_form}
+            return render(request, 'exercisegamification/edit_profile.html', args)
+
         if req_form.is_valid():
 
             ## Saves all the filled out form values to the profile
@@ -145,10 +161,24 @@ def edit_profile(request):
             loggedProfile.weight = req_form.cleaned_data.get('weight')
             loggedProfile.bmi = req_form.cleaned_data.get('bmi')
             loggedProfile.fav_exercise = req_form.cleaned_data.get('fav_exercise')
-            loggedProfile.profile_pic = req_form.cleaned_data.get('profile_pic')
+
+            if (loggedProfile.profile_pic != None and req_form.cleaned_data.get('profile_pic') == None):
+
+                pass
+            else:
+                loggedProfile.profile_pic = req_form.cleaned_data.get('profile_pic')
             loggedProfile.save()
 
+            print(loggedProfile.profile_pic)
+            print(type(loggedProfile.profile_pic))
+            if loggedProfile.profile_pic == "False" or loggedProfile.profile_pic == False :
+                loggedProfile.profile_pic = None
+                loggedProfile.save()
+                print(loggedProfile.profile_pic)
+
             return redirect('/profile/')
+        else:
+            print(req_form.errors)
     else:
         req_form = EditProfileForm(initial = {'first_name':loggedProfile.first_name, 'last_name': loggedProfile.last_name, 'age'
                                           :loggedProfile.age, 'weight': loggedProfile.weight, 'bmi': loggedProfile.bmi,
@@ -164,7 +194,15 @@ def leaderboard(request):
     return render(request, 'exercisegamification/Leaderboard.html', {'users': Profile.objects.order_by('-points_total')[:10]})
 
 #class LeaderboardView(generic.ListView):
-
+# /***
+# *  REFERENCES
+# *  Title: How to add friends in Django
+# *  Author: Pyplane
+# *  Date: 04/12/2021
+# *
+# *  URL: https://www.youtube.com/watch?v=x4SkinIjOTc
+# *
+# ***/
 #friends
 def send_friend_request(request):
     if request.method == 'POST':
@@ -173,7 +211,8 @@ def send_friend_request(request):
         receiver = Profile.objects.get(pk=pk)
 
         friend_string = receiver.user.username
-        message_body = "Hi " + friend_string + "! You just received a friend request from " + sender.user.username + "! Go to https://project-b27.herokuapp.com/profile/ to accept the request!" 
+
+        message_body = "Hi " + friend_string + "! You just received a friend request from " + sender.user.username + "! Go to https://project-b27.herokuapp.com to accept the request!"
         message = create_message("exercisegamificationb27@gmail.com", receiver.user.email, "New Friend Request" , message_body)
         print(receiver.user.email)
         service = get_service()
@@ -183,7 +222,20 @@ def send_friend_request(request):
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profile')
 
-#friends
+
+
+# /***************************************************************************************
+# *  REFERENCES
+# *  Title: create message
+# *  Author: Google Developers
+# *  Date: 04/28/2021
+# *
+# *  URL: https://developers.google.com/gmail/api/guides
+# *
+# *  Title: Gmail API Integration
+# *
+# ***************************************************************************************/
+
 def create_message(sender, to, subject, message_text):
   """Create a message for an email.
 
@@ -201,6 +253,19 @@ def create_message(sender, to, subject, message_text):
   message['from'] = sender
   message['subject'] = subject
   return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
+
+
+# /***************************************************************************************
+# *  REFERENCES
+# *  Title: send message
+# *  Author: Google Developers
+# *  Date: 04/28/2021
+# *
+# *  URL: https://developers.google.com/gmail/api/guides
+# *
+# *  Title: Gmail API Integration
+# *
+# ***************************************************************************************/
 
 def send_message(service, user_id, message):
   """Send an email message.
@@ -276,10 +341,15 @@ class GoalsView(generic.ListView):
     def get_queryset(self):
         return Goal.objects.all()
 
-#class GoalDetailView(generic.DetailView):
-#    model = Goal
-#    template_name = 'exercisegamification/goal_detail.html'
-#goals
+# /*
+# *  REFERENCES
+# *  Title: django-bootstrap-datepicker-plus
+# *  Author: pbucher
+# *  Date: 05/04/2021
+# *
+# *  URL: https://pypi.org/project/django-bootstrap-datepicker-plus/
+# *
+# */
 def GoalDetailView(request, pk, pi=None):
     if pi:
         loggedProfile = Profile.objects.get(pk=pi)
@@ -338,12 +408,38 @@ def DeleteGoalView(request,pk):
 #workouts
 def SelectWorkout(request):
     workouts_list = Workout.objects.filter(author = None)
+
+
     return render(request, "exercisegamification/select_workout.html", {"workouts_list": workouts_list})
 
 #workouts
 def WorkoutDetailView(request, pk):
     loggedProfile = Profile.objects.get(user=request.user)
     workout = Workout.objects.get(pk=pk)
+    workouts_list = loggedProfile.workout_set.all()
+    achievement_name = ""
+    achievement_body = ""
+    achievementQuerySet = PointAchievement.objects.filter(author__isnull=True)
+    users_achievements = loggedProfile.pointachievement_set.all()
+    display_modal = False
+    for achievement in achievementQuerySet:
+        if loggedProfile.points_total + workout.points >= achievement.achievement_threshold:
+            if users_achievements.count() == 0:
+                #PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+                display_modal = True
+                achievement_name = achievement.achievement_title
+                achievement_body = achievement.achievement_text
+                #return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal": display_modal})
+            #for a in users_achievements:
+            if users_achievements.filter(achievement_title=achievement.achievement_title).exists():
+                pass
+            else:
+                #PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+                display_modal = True
+                achievement_name = achievement.achievement_title
+                achievement_body = achievement.achievement_text
+                #return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal": display_modal})
+    print(display_modal)
     if request.method == 'POST':
         req_form = WorkoutDateForm(request.POST)
         if req_form.is_valid():
@@ -355,11 +451,39 @@ def WorkoutDetailView(request, pk):
             added_workout.date = req_form.cleaned_data.get('date')
             added_workout.save()
 
-            return redirect('/profile/')
+
+            '''
+            loggedProfile.points_total = 0
+            for w in workouts_list:
+                loggedProfile.points_total += w.points
+            loggedProfile.save()
+            for achievement in achievementQuerySet:
+                if loggedProfile.points_total >= achievement.achievement_threshold:
+                    if users_achievements.count() == 0:
+                        PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+                        display_modal = True
+                        return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal": display_modal})
+                    #for a in users_achievements:
+                    if users_achievements.filter(achievement_title=achievement.achievement_title).exists():
+                        pass
+                    else:
+                        PointAchievement.objects.create(author=loggedProfile, achievement_threshold=achievement.achievement_threshold, achievement_text=achievement.achievement_text, achievement_title=achievement.achievement_title)
+                        display_modal = True
+                        return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal": display_modal})
+            '''
+            if display_modal == True:
+
+                return redirect('/achievements/')
+            else:
+
+                return redirect('/profile/')
+            #return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal":display_modal})
+
     else:
         req_form = WorkoutDateForm
         args = {'req_form': req_form}
-    return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form})
+
+    return render(request, "exercisegamification/workout_detail.html", {"workout": workout, "req_form": req_form, "display_modal":display_modal, "achievement_name":achievement_name, "achievement_body":achievement_body})
 
 
 #workouts
@@ -388,9 +512,40 @@ def MyWorkoutDetailView(request,pk):
 #achievements
 def AchievementsView(request):
     loggedProfile = Profile.objects.get(user=request.user)
+
+    workouts_list = loggedProfile.workout_set.all()
+    loggedProfile.points_total = 0
+    for w in workouts_list:
+        loggedProfile.points_total += w.points
+    loggedProfile.save()
+
+    achievementQuerySet = PointAchievement.objects.filter(author__isnull=True)
+    # achievement = achievementQuerySet.get()
+    users_achievements = loggedProfile.pointachievement_set.all()
+    for achievement in achievementQuerySet:
+        if loggedProfile.points_total >= achievement.achievement_threshold:
+            if users_achievements.count() == 0:
+                PointAchievement.objects.create(author=loggedProfile,
+                                                achievement_threshold=achievement.achievement_threshold,
+                                                achievement_text=achievement.achievement_text,
+                                                achievement_title=achievement.achievement_title)
+            # for a in users_achievements:
+            if users_achievements.filter(achievement_title=achievement.achievement_title).exists():
+                pass
+            else:
+                PointAchievement.objects.create(author=loggedProfile,
+                                                achievement_threshold=achievement.achievement_threshold,
+                                                achievement_text=achievement.achievement_text,
+                                                achievement_title=achievement.achievement_title)
+    loggedProfile.save()
+
     #achievement = Achievement.objects.get(pk=pk)
     #if loggedProfile.points_total >= achievement.achievement_threshold:
     achievements_list = loggedProfile.pointachievement_set.all()
-    return render(request, "exercisegamification/achievements.html", {"profile": loggedProfile,"achievements_list": achievements_list})
+    progress_bar = 10 * len(achievements_list)
+    progress_num = len(achievements_list)
+    print(progress_bar)
+    return render(request, "exercisegamification/achievements.html", {"profile": loggedProfile,"achievements_list": achievements_list, "progress": progress_bar, "progress_num": progress_num})
+
 
 

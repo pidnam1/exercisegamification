@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import django_heroku
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,7 +45,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-
+    'bootstrap_datepicker_plus',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [
@@ -84,6 +86,9 @@ WSGI_APPLICATION = 'projectB27.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
+django_heroku.settings(locals(), test_runner=False)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -93,7 +98,15 @@ DATABASES = {
         'USER' : 'qxefyjrpmaysbw',
         'PASSWORD' : '4501f9927ac207fe365ab4f5ddde595f4d5e13f3db325e2b6a225854e056a12c',
     },
+
+
 }
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3'
+    }
 
 
 # Password validation
@@ -134,7 +147,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')
 ]
@@ -160,6 +173,11 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+
+BOOTSTRAP4 = {
+     'include_jquery': True,
+ }
 
 
 SITE_ID = 4

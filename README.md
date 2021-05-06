@@ -17,3 +17,4 @@ Completed workouts will appear on the bottom of your profile.
 9) To make goals click on your profile and click "Add Goal," then fill out the relevant data to set goals for yourself. You may also edit and delete goals at any time.
 
 That's the brief rundown of how our software works, if you have any questions please message team B-27
+
