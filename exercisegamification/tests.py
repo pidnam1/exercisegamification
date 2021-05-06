@@ -138,4 +138,30 @@ class RelationshipPendingRequest(TestCase):
 
         self.assertEqual(user1_friend_requests.count(), 1)
         self.assertEqual(user2_friend_requests.count(), 1)
+ 
+
+class WorkoutPointsTest(TestCase):
+    def setUp(self):
+        Workout.objects.create(workout_title="Abs", workout_type="Calisthenics", workout_description="50 crunches", points=30)
+    def test_get_goal_points(self):
+        workout = Workout.objects.get(workout_title="Abs")
+        self.assertEqual(workout.points, 30)
+
+class WorkoutAuthorTest(TestCase):
+    def setUp(self):
+        Profile.objects.create(user = None, first_name="John", last_name="T", age=22, weight=175, bmi=18, fav_exercise="Bench",)
+        p = Profile.objects.get(first_name = "John")
+        Workout.objects.create(author = p, workout_title="Abs", workout_type="Calisthenics", workout_description="50 crunches", points=30, date="2021-05-03")
+    def test_workout_get_author(self):
+        profile = Profile.objects.get(first_name = "John")
+        w = Workout.objects.get(workout_title="Abs")
+        self.assertEqual(w.author, profile)
+
+class WorkoutTitleTest(TestCase):
+    def setUp(self):
+        Workout.objects.create(workout_title="Abs", workout_type="Calisthenics", workout_description="50 crunches", points=30,)
+    def setUp(self):
+        workout = Workout.objects.get(workout_title="Abs")
+        self.assertEqual(workout.workout_title, "Abs")
+   
 
