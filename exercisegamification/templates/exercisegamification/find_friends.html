@@ -11,9 +11,11 @@
         </thead>
         <tbody>
         {% for profile in users %}
+            {% if user != profile.user %}
         <tr>
             <td><a href="{% url 'other profile' pk=profile.pk%}">{{ profile }} </a></td>
         </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
