@@ -1,5 +1,5 @@
 from django.test import TestCase
-from exercisegamification.models import PointAchievement, Profile, Goal
+from exercisegamification.models import PointAchievement, Profile, Goal, Workout
 from datetime import datetime
 
 
@@ -87,3 +87,10 @@ class GoalCreationTestCase(TestCase):
         goal = Goal.objects.get(title="test")
         self.assertEqual(goal.goal_text, "testing")
 
+
+class WorkoutPointsTest(TestCase):
+    def setUp(self):
+        Workout.object.create(workout_title="Abs", workout_type="Calisthenics", workout_description="50 crunches", points=30)
+    def test_get_goal_points(self):
+        workout = Workout.objects.get(workout_title="Abs")
+        self.assertEqual(workout.points, 30)
