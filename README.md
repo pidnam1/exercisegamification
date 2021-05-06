@@ -3,7 +3,7 @@ project-b-27 created by GitHub Classroom
 
 Welcome to B-27's project
 
-Hoo's Gainin'? aims to encourage exercise and wellness through gamification
+Hoo's Gainin'? aims to encourage exercise and wellness through gamification.
 To use our web application, you can do the following:
 1) Login with your Google account on the website.
 2) Once you're logged in you can edit your profile to add relevant information about yourself.
