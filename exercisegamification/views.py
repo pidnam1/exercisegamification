@@ -507,6 +507,17 @@ def MyWorkoutDetailView(request,pk):
 
 #achievements
 def AchievementsView(request):
+    loggedProfile = Profile.objects.get(user=request.user)
+
+    workouts_list = loggedProfile.workout_set.all()
+    loggedProfile.points_total = 0
+    for w in workouts_list:
+        loggedProfile.points_total += w.points
+    loggedProfile.save()
+
+    achievementQuerySet = PointAchievement.objects.filter(author__isnull=True)
+    # achievement = achievementQuerySet.get()
+    users_achievements = loggedProfile.pointachievement_set.all()
     for achievement in achievementQuerySet:
         if loggedProfile.points_total >= achievement.achievement_threshold:
             if users_achievements.count() == 0:
@@ -523,7 +534,7 @@ def AchievementsView(request):
                                                 achievement_text=achievement.achievement_text,
                                                 achievement_title=achievement.achievement_title)
     loggedProfile.save()
-    loggedProfile = Profile.objects.get(user=request.user)
+
     #achievement = Achievement.objects.get(pk=pk)
     #if loggedProfile.points_total >= achievement.achievement_threshold:
     achievements_list = loggedProfile.pointachievement_set.all()
