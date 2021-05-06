@@ -69,6 +69,17 @@ class ProfileMakerInfo3(TestCase):
     def test_get_fav_exercise(self):
         p = Profile.objects.get(first_name="Mandip")
         self.assertEqual(p.fav_exercise, "Running")
+class ProfileMakerInfo4(TestCase):
+
+    def setUp(self):
+        Profile.objects.create(user = None, first_name = "3240", last_name = "@!/*", age = 20 , points_total = 200, weight = 50, bmi = 5, fav_exercise = "Running")
+
+    def test_get_first(self):
+        p = Profile.objects.get(first_name = "3240")
+        self.assertEqual(p.first_name, str(p))
+    def test_get_last(self):
+        p = Profile.objects.get(last_name = "@!/*")
+        self.assertEqual(p.last_name, "@!/*")
 class GoalConnectedtoProfileTestCase(TestCase):
     def setUp(self):
         Profile.objects.create(user = None, first_name="m", last_name="t", age=12, weight=100, bmi=2, fav_exercise="swim", )
