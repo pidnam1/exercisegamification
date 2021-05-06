@@ -107,7 +107,7 @@ class WorkoutPointsTest(TestCase):
         self.assertEqual(workout.points, 30)
 
 
-class RelationshipSendRequest(TestCase):
+class RelationshipAcceptedRequest(TestCase):
     def setUp(self):
         self.user1 = User.objects.create_user(username='testuser1', password='12345')
         self.user2= User.objects.create_user(username='testuser2', password='12345')
@@ -122,7 +122,7 @@ class RelationshipSendRequest(TestCase):
         self.assertEqual(testprofile2.friends.count(), 1)
 
 
-class RelationshipSendRequest(TestCase):
+class RelationshipPendingRequest(TestCase):
     def setUp(self):
         self.user1 = User.objects.create_user(username='testuser1', password='12345')
         self.user2= User.objects.create_user(username='testuser2', password='12345')
