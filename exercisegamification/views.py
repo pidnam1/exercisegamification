@@ -24,6 +24,7 @@ from apiclient import errors
 
 # If modifying these scopes, delete the file token.json.
 
+
 # /***************************************************************************************
 # *  REFERENCES
 # *  Title: get service
@@ -35,6 +36,7 @@ from apiclient import errors
 # *  Title: Gmail API Integration
 # *
 # ***************************************************************************************/
+
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 
@@ -209,6 +211,7 @@ def send_friend_request(request):
         receiver = Profile.objects.get(pk=pk)
 
         friend_string = receiver.user.username
+
         message_body = "Hi " + friend_string + "! You just received a friend request from " + sender.user.username + "! Go to https://project-b27.herokuapp.com to accept the request!"
         message = create_message("exercisegamificationb27@gmail.com", receiver.user.email, "New Friend Request" , message_body)
         print(receiver.user.email)
@@ -218,6 +221,7 @@ def send_friend_request(request):
         rel = Relationship.objects.create(sender=sender, receiver=receiver, status='pending')
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profile')
+
 
 
 # /***************************************************************************************
@@ -250,6 +254,7 @@ def create_message(sender, to, subject, message_text):
   message['subject'] = subject
   return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
 
+
 # /***************************************************************************************
 # *  REFERENCES
 # *  Title: send message
@@ -281,7 +286,6 @@ def send_message(service, user_id, message):
     return message
   except errors.HttpError as error:
     print('An error occurred: %s' % error)
-
 
 
 
@@ -542,5 +546,6 @@ def AchievementsView(request):
     progress_num = len(achievements_list)
     print(progress_bar)
     return render(request, "exercisegamification/achievements.html", {"profile": loggedProfile,"achievements_list": achievements_list, "progress": progress_bar, "progress_num": progress_num})
+
 
 
