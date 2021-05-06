@@ -1,7 +1,7 @@
-from django.test import TestCase
-from exercisegamification.models import PointAchievement, Profile, Goal, Workout
+from django.test import TestCase, RequestFactory
+from exercisegamification.models import PointAchievement, Profile, Goal, Workout, Relationship
 from datetime import datetime
-
+from exercisegamification import views
 
 # Create your tests here.
 
@@ -105,3 +105,37 @@ class WorkoutPointsTest(TestCase):
     def test_get_goal_points(self):
         workout = Workout.objects.get(workout_title="Abs")
         self.assertEqual(workout.points, 30)
+
+
+class RelationshipSendRequest(TestCase):
+    def setUp(self):
+        self.user1 = User.objects.create_user(username='testuser1', password='12345')
+        self.user2= User.objects.create_user(username='testuser2', password='12345')
+        testprofile1 = Profile.objects.create(user=self.user1, first_name="Joe", last_name="Smith", age=20, points_total=200, weight=50,
+                               bmi=5, fav_exercise="Running")
+        testprofile2 = Profile.objects.create(user=self.user2, first_name="Bob", last_name="Smith", age = 20 , points_total = 200,
+                                       weight = 50, bmi = 5, fav_exercise = "Running")
+        Relationship.objects.create(sender=testprofile1, receiver=testprofile2, status='accepted')
+
+    def accepted_request(self):
+        self.assertEqual(testprofile1.friends.count(), 1)
+        self.assertEqual(testprofile2.friends.count(), 1)
+
+
+class RelationshipSendRequest(TestCase):
+    def setUp(self):
+        self.user1 = User.objects.create_user(username='testuser1', password='12345')
+        self.user2= User.objects.create_user(username='testuser2', password='12345')
+        testprofile1 = Profile.objects.create(user=self.user1, first_name="Joe", last_name="Smith", age=20, points_total=200, weight=50,
+                               bmi=5, fav_exercise="Running")
+        testprofile2 = Profile.objects.create(user=self.user2, first_name="Bob", last_name="Smith", age = 20 , points_total = 200,
+                                       weight = 50, bmi = 5, fav_exercise = "Running")
+        Relationship.objects.create(sender=testprofile1, receiver=testprofile2, status='pending')
+
+    def pending_request(self):
+        user1_friend_requests = Relationship.objects.invatations_received(testprofile1)
+        user2_friend_requests = Relationship.objects.invatations_received(testprofile2)
+
+        self.assertEqual(user1_friend_requests.count(), 1)
+        self.assertEqual(user2_friend_requests.count(), 1)
+
