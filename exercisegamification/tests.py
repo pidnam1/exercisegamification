@@ -55,7 +55,7 @@ class ProfileMakerInfo2(TestCase):
         p = Profile.objects.get(first_name = "Mandip")
         self.assertEqual(p.first_name, str(p))
     def test_get_last(self):
-        p = Profile.objects.get(first_name = "Bhadra")
+        p = Profile.objects.get(last_name = "Bhadra")
         self.assertEqual(p.last_name, str(p))
 class ProfileMakerInfo3(TestCase):
 
