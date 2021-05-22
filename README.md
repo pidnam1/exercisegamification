@@ -1,7 +1,7 @@
 # project-b-27
 project-b-27 created by GitHub Classroom
 
-Welcome to B-27's project
+Welcome to B-27's project, available at https://project-b27.herokuapp.com
 
 Hoo's Gainin'? aims to encourage exercise and wellness through gamification.
 To use our web application, you can do the following:
